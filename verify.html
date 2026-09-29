@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xác nhận Email - OpenNovel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&amp;family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#d97706","primary-hover": "#b45309",
+              "secondary": "#fef3c7","accent": "#78350f","background-warm": "#fffbef","card-warm": "#ffffff",
+              "text-main": "#292524","text-muted": "#57534e","border-warm": "#e7e5e4"
+            },
+            fontFamily: {
+              "sans": ["Nunito Sans", "sans-serif"],
+              "serif": ["Merriweather", "serif"],
+            },
+            borderRadius: {
+              "xl": "1rem", 
+              "2xl": "1.5rem",
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+        }@keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .toast-enter {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        .toast-exit {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground min-h-screen flex flex-col transition-colors duration-300">
+<header class="flex items-center justify-between border-b border-orange-100 px-6 py-4 lg:px-10 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
+<div class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onclick="window.location.href='#'">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-accent font-serif">OpenNovel</h2>
+</div>
+<div>
+<a class="text-sm font-semibold text-text-muted hover:text-primary transition-colors" href="forgot.html">Trợ giúp</a>
+</div>
+</header>
+<main class="flex-1 flex items-center justify-center p-4">
+<div class="w-full max-w-lg">
+<div class="bg-card-warm rounded-2xl shadow-xl border border-orange-50 p-8 sm:p-10 text-center relative overflow-hidden">
+<div class="absolute -top-16 -right-16 w-32 h-32 bg-orange-100 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-16 -left-16 w-40 h-40 bg-secondary rounded-full opacity-50 blur-2xl pointer-events-none"></div>
+<div class="flex justify-center mb-6 relative z-10">
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+<div class="relative bg-orange-50 rounded-full p-6 ring-1 ring-orange-100">
+<span class="material-symbols-outlined text-6xl text-primary">
+                            mark_email_unread
+                        </span>
+</div>
+</div>
+</div>
+<h1 class="text-accent text-3xl font-black mb-4 tracking-tight relative z-10">Xác thực Email</h1>
+<div class="space-y-4 relative z-10">
+<p class="text-text-muted text-lg leading-relaxed">
+                    Cảm ơn bạn đã đăng ký! Một email xác thực đã được gửi đến địa chỉ:
+                </p>
+<div class="py-3 px-5 bg-orange-50 rounded-xl border border-orange-100 inline-block max-w-full overflow-hidden text-ellipsis">
+<span class="font-bold text-primary text-lg font-sans" id="user-email-display">
+                        đang tải...
+                    </span>
+</div>
+<p class="text-text-muted text-base leading-relaxed">
+                    Vui lòng kiểm tra hộp thư đến và nhấn vào liên kết để bắt đầu hành trình đọc &amp; viết truyện của bạn.
+                </p>
+</div>
+<div class="mt-8 mb-8 p-4 bg-background-warm rounded-xl border border-orange-200/60 relative z-10">
+<div class="flex items-start gap-3 text-left">
+<span class="material-symbols-outlined text-amber-600 text-xl mt-0.5 shrink-0">
+                        lightbulb
+                    </span>
+<p class="text-text-muted text-sm">
+                        Không tìm thấy email? Đừng quên kiểm tra cả thư mục <strong>Spam (Thư rác)</strong> hoặc <strong>Promotions (Quảng cáo)</strong> nhé.
+                    </p>
+</div>
+</div>
+<div class="flex flex-col gap-3 relative z-10">
+<button class="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-orange-200 hover:shadow-orange-300 active:scale-[0.98] flex items-center justify-center gap-2 group" onclick="window.location.href='login.html'">
+<span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform text-xl">
+                        arrow_back
+                    </span>
+                    Quay lại Đăng nhập
+                </button>
+<button class="w-full bg-white hover:bg-orange-50 text-text-muted hover:text-primary font-semibold py-3.5 px-6 rounded-xl border border-gray-200 hover:border-orange-200 transition-all duration-200 flex items-center justify-center gap-2 mt-1" id="resend-btn" onclick="handleResend()">
+<span class="material-symbols-outlined text-xl" id="resend-icon">
+                        refresh
+                    </span>
+<span id="resend-text">Gửi lại Email xác nhận</span>
+</button>
+</div>
+</div>
+<div class="mt-8 text-center">
+<p class="text-text-muted text-sm opacity-80">
+                © 2023 OpenNovel. Nơi viết và đọc truyện tự do.
+            </p>
+<div class="flex justify-center gap-6 mt-3">
+<a class="text-sm font-medium text-text-muted hover:text-primary hover:underline underline-offset-4 transition-colors" href="index.html">Điều khoản</a>
+<a class="text-sm font-medium text-text-muted hover:text-primary hover:underline underline-offset-4 transition-colors" href="index.html">Bảo mật</a>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3" id="toast-container">
+</div>
+<script>
+    // 1. Retrieve Email from LocalStorage
+    document.addEventListener('DOMContentLoaded', () => {
+        const emailDisplay = document.getElementById('user-email-display');
+        // Check localStorage for email, otherwise use a placeholder
+        const storedEmail = localStorage.getItem('userEmail');
+        if (storedEmail) {
+            emailDisplay.textContent = storedEmail;
+        } else {
+            // Fallback for demo purposes
+            emailDisplay.textContent = 'ban_doc@opennovel.com';
+        }
+    });
+    // 2. Handle Resend Logic
+    function handleResend() {
+        const btn = document.getElementById('resend-btn');
+        const btnText = document.getElementById('resend-text');
+        const btnIcon = document.getElementById('resend-icon');
+        // Disable button state
+        btn.disabled = true;
+        btn.classList.add('opacity-70', 'cursor-not-allowed', 'bg-gray-50');
+        btnIcon.classList.add('animate-spin'); // Add spin animation to icon
+        btnText.textContent = "Đang gửi...";
+        // Simulate API call delay
+        setTimeout(() => {
+            // Restore button state
+            btn.disabled = false;
+            btn.classList.remove('opacity-70', 'cursor-not-allowed', 'bg-gray-50');
+            btnIcon.classList.remove('animate-spin');
+            btnText.textContent = "Gửi lại Email xác nhận";
+            // Show Success Toast
+            showToast("Đã gửi lại email xác thực!", "success");
+        }, 2000);
+    }
+    // 3. Toast Notification Logic
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        // Create toast element
+        const toast = document.createElement('div');
+        // Warm theme toast
+        const bgClass = type === 'success' ? 'bg-white border-green-200 text-green-800' : 'bg-white border-red-200 text-red-800';
+        const iconColor = type === 'success' ? 'text-green-600' : 'text-red-600';
+        toast.className = `toast-enter flex items-center gap-3 w-80 p-4 rounded-xl shadow-xl border ${bgClass}`;
+        toast.innerHTML = `
+            <div class="flex-shrink-0">
+                <span class="material-symbols-outlined ${iconColor}">
+                    ${type === 'success' ? 'check_circle' : 'error'}
+                </span>
+            </div>
+            <div class="text-sm font-semibold">
+                ${message}
+            </div>
+            <button onclick="this.parentElement.remove()" class="ml-auto opacity-50 hover:opacity-100 transition-opacity">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+        `;
+        container.appendChild(toast);
+        // Auto remove after 4 seconds
+        setTimeout(() => {
+            toast.classList.replace('toast-enter', 'toast-exit');
+            toast.addEventListener('animationend', () => {
+                toast.remove();
+            });
+        }, 4000);
+    }
+</script>
+
+</body></html>

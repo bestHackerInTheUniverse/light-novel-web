@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Đăng nhập - OpenNovel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="tailwind.config.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-white font-display text-black min-h-screen flex flex-col items-center justify-center relative">
+    
+    <a href="index.html" class="absolute top-6 left-6 text-black flex items-center gap-2 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined">arrow_back</span> Trang chủ
+    </a>
+
+    <div class="w-full max-w-[480px] bg-white border border-gray-200 rounded shadow-sm">
+        <div class="px-4 py-3 border-b bg-gray-100 text-sm font-semibold">Đăng nhập</div>
+        <form class="p-6 space-y-4" onsubmit="event.preventDefault(); performLogin();">
+            <div class="grid grid-cols-12 gap-4 items-center">
+                <label class="col-span-4 text-right text-sm text-gray-700"> Tên đăng nhập</label>
+                <div class="col-span-8">
+                    <input id="login-username" class="w-full h-10 rounded border border-gray-300 px-3 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Email hoặc Tên đăng nhập" type="text"/>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-4 items-center">
+                <label class="col-span-4 text-right text-sm text-gray-700">Mật khẩu</label>
+                <div class="col-span-8">
+                    <input id="login-password" class="w-full h-10 rounded border border-gray-300 px-3 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Mật khẩu" type="password"/>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <label class="flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" class="rounded bg-white border border-gray-300 text-primary focus:ring-0"> Ghi nhớ</label>
+                <a href="forgot.html" class="text-primary hover:underline text-sm">Quên mật khẩu?</a>
+            </div>
+
+            <div class="flex items-center gap-4 mt-2">
+                <button type="submit" class="px-6 py-2.5 bg-[#0ea5a4] hover:bg-[#0aa39a] text-white rounded-lg font-semibold shadow-lg shadow-[#0ea5a4]/25 transition-transform active:scale-95">Đăng nhập</button>
+                <div class="flex-1 text-right text-sm text-gray-500">Chưa có tài khoản? <a href="register.html" class="text-primary font-semibold">Đăng ký</a></div>
+            </div>
+        </form>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

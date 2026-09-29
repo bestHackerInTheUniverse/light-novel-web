@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trang chủ OpenNovel</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Merriweather:wght@300;400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="tailwind.config.js"></script>
+<script src="data.js"></script>
+<script src="main.js"></script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-display overflow-x-hidden min-h-screen flex flex-col selection:bg-primary selection:text-white">
+<nav class="sticky top-0 z-50 w-full border-b border-border-light bg-white">
+<div class="flex h-16 items-center justify-between px-4 md:px-10 max-w-[1280px] mx-auto w-full">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3 hover:opacity-90 transition-opacity" href="index.html" style="background: linear-gradient(135deg, #00ff00 0%, #00ffff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+<img src="https://phucma.com.vn/wp-content/uploads/2017/11/bishojyo07.gif" 
+     alt="Logo OpenNovel" 
+     class="h-10 w-auto object-contain rounded-lg border-2 border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]">
+<h1 class="text-xl font-bold tracking-tight font-serif text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.6)]" style="font-family: 'Courier New', monospace; letter-spacing: 2px;">OpenNovel</h1>
+</a>
+<div class="hidden md:flex items-center w-full max-w-md">
+<div class="relative flex-1 group">
+    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-primary transition-colors">search</span>
+    <input type="text" 
+           id="global-search"
+           placeholder="Tìm truyện, tác giả..." 
+           class="w-full pl-10 pr-4 py-2 bg-stone-100 border-none rounded-xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all outline-none text-sm text-stone-700"
+           autocomplete="off">
+    
+    <div id="search-suggestions" 
+         class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-stone-100 overflow-hidden z-[100] hidden">
+        <div id="suggestion-list" class="max-h-[300px] overflow-y-auto"></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-6">
+<a class="text-stone-600 hover:text-stone-900 text-sm font-medium transition-colors" href="index.html">Trang chủ</a>
+<a class="text-stone-600 hover:text-stone-900 text-sm font-medium transition-colors" href="dashboard.html">Viết truyện</a>
+<a class="text-stone-600 hover:text-stone-900 text-sm font-medium transition-colors" href="profile.html">Thư viện</a>
+</div>
+<div class="h-6 w-px bg-border-dark hidden md:block"></div>
+<div class="flex items-center gap-2 lg:gap-4">
+    <a href="login.html" id="header-login-btn" class="flex h-9 items-center justify-center rounded-lg bg-primary px-5 text-sm font-bold text-white hover:bg-primary-hover transition-colors shadow-[0_0_15px_rgba(234,88,12,0.3)]">
+        Đăng nhập
+    </a>
+</div>
+<div id="mobile-menu-toggle" class="md:hidden text-stone-700 cursor-pointer hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</div>
+</div>
+</nav>
+<main class="flex-1 flex justify-center py-6 px-4 md:px-8">
+<div class="w-full max-w-[1280px] flex flex-col gap-10">
+<section class="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-stone-800 group h-[450px] md:h-[500px]">
+<div class="absolute inset-0 z-0 opacity-40 bg-cover bg-center transition-transform duration-[20s] group-hover:scale-105" data-alt="Dark fantasy landscape with mystic fog" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDW3fSDoL7kf743feWi-UQa27uHzDC63QwLsKsYRU6rKUSOmSGeVPQ2GSP5uvxqVm3vZ2paPLyfTp_QvIvi7aI1Lzu1Rf_sgG7UsKnGudjXH9oBof4LNmqVNEsCP90xNNdp1E4UecbJ8UMQXCz9u8w6aSIiarWqVZe3oPUfkQijCMDEjpnrS7KmGiJaQZy68cOEK3KY5j8HR8SXYZWPrhvknkAF9e18cnEjgTTzN9QHlwIpRWH5AXeB2TBy43afpuhIcqNBOdnvff0');"></div>
+<div class="absolute inset-0 z-0 bg-gradient-to-r from-background-dark via-background-dark/95 to-background-dark/40"></div>
+    <div id="slider-track" class="flex h-full transition-transform duration-500 ease-in-out">
+        </div>
+
+    <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-3 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
+        <span class="material-symbols-outlined text-2xl">chevron_left</span>
+    </button>
+    
+    <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-3 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
+        <span class="material-symbols-outlined text-2xl">chevron_right</span>
+    </button>
+
+    <div id="slider-dots" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+        </div>
+
+    <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/60 to-transparent pointer-events-none z-10"></div>
+</section>
+
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-stone-900 text-xl font-bold font-serif flex items-center gap-2">
+<span class="w-1 h-6 bg-primary rounded-full inline-block"></span>
+                    Browse by Genre
+                </h3>
+</div>
+<div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+<button data-genre="all" class="genre-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-6 transition-transform active:scale-95 shadow-md shadow-primary/20">
+<span class="text-white text-sm font-bold">All</span>
+</button>
+<button data-genre="Tiên Hiệp" class="genre-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-gray-100 px-6 hover:bg-gray-200 transition-colors border border-gray-300 text-gray-700 hover:text-gray-900">
+<span class="text-sm font-medium">Tiên hiệp</span>
+</button>
+<button data-genre="Ngôn Tình" class="genre-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-gray-100 px-6 hover:bg-gray-200 transition-colors border border-gray-300 text-gray-700 hover:text-gray-900">
+<span class="text-sm font-medium">Ngôn tình</span>
+</button>
+<button data-genre="Huyền Huyễn" class="genre-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-gray-100 px-6 hover:bg-gray-200 transition-colors border border-gray-300 text-gray-700 hover:text-gray-900">
+<span class="text-sm font-medium">Huyền huyễn</span>
+</button>
+<button data-genre="Đô thị" class="genre-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-gray-100 px-6 hover:bg-gray-200 transition-colors border border-gray-300 text-gray-700 hover:text-gray-900">
+<span class="text-sm font-medium">Đô thị</span>
+</button>
+<button data-genre="Kinh dị" class="genre-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-gray-100 px-6 hover:bg-gray-200 transition-colors border border-gray-300 text-gray-700 hover:text-gray-900">
+<span class="text-sm font-medium">Kinh dị</span>
+</button>
+<button data-genre="Khoa Huyễn" class="genre-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-gray-100 px-6 hover:bg-gray-200 transition-colors border border-gray-300 text-gray-700 hover:text-gray-900">
+<span class="text-sm font-medium">Khoa huyễn</span>
+</button>
+<button data-genre="Lịch sử" class="genre-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-gray-100 px-6 hover:bg-gray-200 transition-colors border border-gray-300 text-gray-700 hover:text-gray-900">
+<span class="text-sm font-medium">Lịch sử</span>
+</button>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    try {
+        const container = document.getElementById('novel-list');
+        if (!container) return;
+
+        // Replaced with user-provided filter implementation
+        // 1. DỮ LIỆU TRUYỆN (DATABASE GIẢ LẬP)
+        const database = [
+            {
+                id: 1,
+                title: "One Piece",
+                author: "Oda Eiichirō",
+                category: "Huyền Huyễn",
+                cover: "https://genk.mediacdn.vn/2020/1/30/1-15803727705401451611239.jpg",
+                tag: "NEW",
+                tagColor: "bg-emerald-600/90"
+            },
+            {
+                id: 2,
+                title: "Conan",
+                author: "Gosho Aoyama",
+                category: "Trinh Thám",
+                cover: "https://i.ex-cdn.com/giadinhmoi.vn/files/content/2019/04/06/conan-08-2232.jpg",
+                tag: null,
+                tagColor: ""
+            },
+            {
+                id: 3,
+                title: "Doraemon",
+                author: "Fujiko Fujio",
+                category: "Thiếu Nhi",
+                cover: "https://cafefcdn.com/thumb_w/640/203337114487263232/2025/1/18/avatar1737209731371-17372097317571353245757.jpg",
+                tag: null,
+                tagColor: ""
+            },
+            {
+                id: 4,
+                title: "Marigold",
+                author: "Verbena",
+                category: "Khoa Huyễn",
+                cover: "https://p.sda1.dev/24/2b1de19925e928591bc978805f83203f/ughlcgsb.png",
+                tag: "UPDATED",
+                tagColor: "bg-blue-600/90"
+            },
+            {
+                id: 5,
+                title: "Naruto",
+                author: "Masashi Kishimoto",
+                category: "Tiên Hiệp",
+                cover: "https://static.gamehub.vn/img/files/2017/05/09/GameHubVN-Tac-gia-vua-Naruto-xac-nhan-mot-nhan-vat-cuc-ky-quan-trong-se-chet-3.jpg",
+                tag: null,
+                tagColor: ""
+            },
+            {
+                id: 6,
+                title: "Tearmoon",
+                author: "Mochitsuki",
+                category: "Lịch Sử",
+                cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK1bU6cNzDYICeJ7J3YVNwVvEwTjhYfniCuQ&s",
+                tag: null,
+                tagColor: ""
+            },
+            {
+                id: 7,
+                title: "Too Many Losing Heroines!",
+                author: "Takibi Amamori",
+                category: "Ngôn Tình",
+                cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYyRfTRtpQLjlAeggairv85D6BrO-TvuiBrA&s",
+                tag: "HOT",
+                tagColor: "bg-red-600/90"
+            },
+            {
+                id: 8,
+                title: "Stitches",
+                author: "Teddy Geiger",
+                category: "Kinh Dị",
+                cover: "https://i5.walmartimages.com/seo/Junji-Ito-Stitches-Hardcover-9781974736560_25379800-a1b6-4a16-b99f-f43f7eca38a7.4cff43ad10c023b24f6c0a3ebed18c63.jpeg",
+                tag: null,
+                tagColor: ""
+            },
+            {
+                id: 9,
+                title: "Sasaki and Pii-chan",
+                author: "Buncololi",
+                category: "Đô Thị",
+                cover: "https://static.wikia.nocookie.net/sasapii/images/c/ca/Vol2.png/revision/latest/scale-to-width-down/1200?cb=20240316030733&path-prefix=vi",
+                tag: null,
+                tagColor: ""
+            },
+            {
+                id: "ngay-ay-anh-yeu-em",
+                title: "Ngày ấy anh yêu em",
+                author: "Ẩn danh",
+                category: "Ngôn Tình",
+                cover: "https://anime.atsit.in/l/vi/135844/",
+                tag: "HOT",
+                tagColor: "bg-red-600/90"
+            },
+            {
+                id: "anh-bo-em-roi",
+                title: "Anh bỏ em rồi",
+                author: "Ẩn danh",
+                category: "Ngôn Tình",
+                cover: "https://blogradio.vn/uploads/cms/source/2021/36/yeuxong_(3).jpg",
+                tag: "NEW",
+                tagColor: "bg-emerald-600/90"
+            }
+        ];
+
+        // Helper function to get all novels (gộp database + truyện người dùng đã đăng)
+        function getAllNovels() {
+            // 1. Lấy truyện người dùng đã đăng từ localStorage
+            const userNovels = JSON.parse(localStorage.getItem('userNovels') || '[]');
+            const currentUser = localStorage.getItem('currentUser');
+            const dynamicIds = new Set(['ngay-ay-anh-yeu-em', 'anh-bo-em-roi']);
+            
+            // 2. Lọc ra những truyện có trạng thái là 'published'
+            const publishedUserNovels = userNovels.filter(novel => 
+                novel.status === 'published' || novel.status === 'Đang tiến hành' || novel.status === 'Đã hoàn thành'
+            );
+            
+            // 3. Gộp truyện mới đăng lên đầu danh sách (published trước, sau đó là database mặc định)
+            const merged = [...publishedUserNovels, ...database];
+
+            // 4. Nếu có người dùng đăng nhập, thay author cho hai truyện yêu cầu
+            if (currentUser) {
+                return merged.map(novel => {
+                    if (dynamicIds.has(String(novel.id))) {
+                        return { ...novel, author: currentUser };
+                    }
+                    return novel;
+                });
+            }
+
+            return merged;
+        }
+
+        // 2. HÀM VẼ GIAO DIỆN (RENDER)
+        function renderNovels(list) {
+            const container = document.getElementById('novel-list');
+            container.innerHTML = ''; // Xóa danh sách cũ
+
+            if (!list || list.length === 0) {
+                container.innerHTML = '<p class="col-span-4 text-center text-muted py-10">Không tìm thấy truyện nào thuộc thể loại này.</p>';
+                return;
+            }
+
+            list.forEach(novel => {
+                // Tạo HTML thẻ truyện (Giữ nguyên class CSS gốc của bạn)
+                const html = `
+                    <div class="group flex flex-col gap-3 relative cursor-pointer fade-in">
+                        <a href="detail.html?id=${novel.id}" class="block">
+                            <div class="w-full aspect-[2/3] overflow-hidden rounded-lg shadow-lg bg-white relative border border-border-light">
+                                <div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('${novel.cover}');"></div>
+                                ${novel.tag ? `<div class="absolute top-2 left-2 bg-white border border-gray-200 text-stone-900 text-[10px] font-bold px-2 py-0.5 rounded shadow">${novel.tag}</div>` : ''}
+                            </div>
+                        </a>
+                        <div>
+                            <h4 class="text-stone-900 text-[15px] font-bold leading-snug line-clamp-1 group-hover:text-primary transition-colors font-serif">
+                                <a href="detail.html?id=${novel.id}">${novel.title}</a>
+                            </h4>
+                            <p class="text-text-muted text-xs mt-1 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[12px]">person</span> ${novel.author}
+                            </p>
+                            <div class="flex items-center gap-1.5 mt-2">
+                                <span class="px-1.5 py-0.5 rounded bg-surface border border-border text-muted text-[10px] font-medium">${novel.category}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        // 3. HÀM LỌC (FILTER)
+        function normalize(s) { return (s || '').trim().toLowerCase(); }
+
+        // Multi-select genres + search
+        const selectedGenres = new Set();
+        let searchTerm = '';
+
+        function updateButtonsState() {
+    const buttons = document.querySelectorAll('.genre-btn');
+    // Make all buttons have primary teal background + white text by default
+    buttons.forEach(b => {
+        b.classList.remove('bg-surface','bg-white','text-muted','text-sm','font-medium');
+        b.classList.add('bg-primary','shadow-md','shadow-primary/20');
+        const span = b.querySelector('span');
+        if (span) {
+            span.classList.remove('text-sm','font-medium','text-muted');
+            span.classList.add('text-white','font-bold');
+        }
+    });
+
+    // If there are selected genres, indicate them with a subtle scale
+    if (selectedGenres.size === 0) {
+        return;
+    }
+
+    document.querySelectorAll('.genre-btn').forEach(b => {
+        const g = b.getAttribute('data-genre') || '';
+        if (selectedGenres.has(normalize(g))) {
+            b.classList.add('scale-105');
+        } else {
+            b.classList.remove('scale-105');
+        }
+    });
+        }
+
+        function applyFilters() {
+            let list = getAllNovels();
+            // search by title or author
+            if (searchTerm) {
+                const k = searchTerm.toLowerCase();
+                list = list.filter(n => (n.title || '').toLowerCase().includes(k) || (n.author || '').toLowerCase().includes(k));
+            }
+            // filter by selected genres
+            if (selectedGenres.size > 0) {
+                list = list.filter(n => selectedGenres.has(normalize(n.category)));
+            }
+            renderNovels(list);
+            updateButtonsState();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // initial render
+            renderNovels(getAllNovels());
+
+            const buttons = document.querySelectorAll('.genre-btn');
+            buttons.forEach(btn => btn.addEventListener('click', () => {
+                const g = (btn.getAttribute('data-genre') || '').trim();
+                if (normalize(g) === 'all') { selectedGenres.clear(); }
+                else {
+                    const n = normalize(g);
+                    if (selectedGenres.has(n)) selectedGenres.delete(n); else selectedGenres.add(n);
+                }
+                applyFilters();
+            }));
+
+            const searchInput = document.getElementById('global-search');
+            if (searchInput) {
+                let debounce;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(debounce);
+                    debounce = setTimeout(() => {
+                        searchTerm = (e.target.value || '').trim();
+                        applyFilters();
+                    }, 200);
+                });
+            }
+
+            // initial state
+            applyFilters();
+        });
+    } catch (e) {
+        console.error('Error in novel filter:', e);
+    }
+});
+</script>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 flex flex-col gap-6">
+<div class="flex items-center justify-between pb-2 border-b border-border-light">
+<h3 class="text-stone-900 text-2xl font-bold font-serif">Mới cập nhật</h3>
+<a class="text-primary hover:text-primary-hover text-sm font-bold hover:underline flex items-center gap-1 transition-colors" href="index.html">
+                        Xem tất cả <span class="material-symbols-outlined text-[18px]">arrow_right_alt</span>
+</a>
+</div>
+<div id="novel-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-5 gap-y-8">
+</div>
+</div>
+<aside class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface rounded-xl border border-border p-6 shadow-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-[120px]">leaderboard</span>
+</div>
+<div class="flex items-center justify-between mb-6 border-b border-border-light pb-4 relative z-10">
+<h3 class="text-stone-900 text-lg font-bold font-serif flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-500">trophy</span>
+                            Nổi bật
+                        </h3>
+<span class="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">Weekly</span>
+</div>
+<div id="featured-list-container" class="flex flex-col gap-2 relative z-10">
+<a href="detail.html?id=1" class="flex items-center gap-4 group cursor-pointer hover:bg-surface-hover p-2.5 rounded-lg transition-colors border border-transparent hover:border-border-dark">
+<div class="text-2xl font-black text-amber-500 w-8 text-center italic">1</div>
+<div class="h-14 w-10 rounded shadow-md bg-cover bg-center shrink-0" style="background-image: url('https://genk.mediacdn.vn/2020/1/30/1-15803727705401451611239.jpg');"></div>
+<div class="flex flex-col">
+<h4 class="text-foreground font-bold text-sm line-clamp-1 group-hover:text-primary font-serif">One Piece</h4>
+<p class="text-muted text-xs mt-0.5">Fantasy • 1.2M Views</p>
+</div>
+</a>
+<a href="detail.html?id=2" class="flex items-center gap-4 group cursor-pointer hover:bg-surface-hover p-2.5 rounded-lg transition-colors border border-transparent hover:border-border-dark">
+<div class="text-2xl font-black text-stone-400 w-8 text-center italic">2</div>
+<div class="h-14 w-10 rounded shadow-md bg-cover bg-center shrink-0" style="background-image: url('https://i.ex-cdn.com/giadinhmoi.vn/files/content/2019/04/06/conan-08-2232.jpg');"></div>
+<div class="flex flex-col">
+<h4 class="text-foreground font-bold text-sm line-clamp-1 group-hover:text-primary font-serif">Conan</h4>
+<p class="text-muted text-xs mt-0.5">Mystery • 980K Views</p>
+</div>
+</a>
+<a href="detail.html?id=3" class="flex items-center gap-4 group cursor-pointer hover:bg-surface-hover p-2.5 rounded-lg transition-colors border border-transparent hover:border-border-dark">
+<div class="text-2xl font-black text-orange-700 w-8 text-center italic">3</div>
+<div class="h-14 w-10 rounded shadow-md bg-cover bg-center shrink-0" style="background-image: url('https://cafefcdn.com/thumb_w/640/203337114487263232/2025/1/18/avatar1737209731371-17372097317571353245757.jpg');"></div>
+<div class="flex flex-col">
+<h4 class="text-foreground font-bold text-sm line-clamp-1 group-hover:text-primary font-serif">Doraemon</h4>
+<p class="text-muted text-xs mt-0.5">Dark • 850K Views</p>
+</div>
+</a>
+<a href="detail.html?id=4" class="flex items-center gap-4 group cursor-pointer hover:bg-surface-hover p-2.5 rounded-lg transition-colors border border-transparent hover:border-border-dark">
+<span class="text-lg font-bold text-stone-600 w-8 text-center">4</span>
+<div class="h-14 w-10 rounded shadow-md bg-cover bg-center shrink-0" style="background-image: url('https://p.sda1.dev/24/2b1de19925e928591bc978805f83203f/ughlcgsb.png');"></div>
+<div class="flex flex-col">
+<h4 class="text-foreground font-medium text-sm line-clamp-1 group-hover:text-primary font-serif">Marrigold</h4>
+<p class="text-muted text-xs">Gaming • 720K Views</p>
+</div>
+</a>
+<a href="detail.html?id=5" class="flex items-center gap-4 group cursor-pointer hover:bg-surface-hover p-2.5 rounded-lg transition-colors border border-transparent hover:border-border-dark">
+<span class="text-lg font-bold text-stone-600 w-8 text-center">5</span>
+<div class="h-14 w-10 rounded shadow-md bg-cover bg-center shrink-0" style="background-image: url('https://static.gamehub.vn/img/files/2017/05/09/GameHubVN-Tac-gia-vua-Naruto-xac-nhan-mot-nhan-vat-cuc-ky-quan-trong-se-chet-3.jpg');"></div>
+<div class="flex flex-col">
+<h4 class="text-foreground font-medium text-sm line-clamp-1 group-hover:text-primary font-serif">Naruto</h4>
+<p class="text-muted text-xs">Wuxia • 650K Views</p>
+</div>
+</a>
+</div>
+<button id="btn-view-all-featured" class="w-full mt-4 py-2.5 text-sm font-semibold text-foreground inline-block text-center border border-border rounded-lg hover:bg-surface-hover transition-colors">
+                        Xem tất cả
+                    </button>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<footer class="mt-16 bg-surface border-t border-border py-12">
+<div class="max-w-[1280px] mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 mb-4 text-white">
+<span class="material-symbols-outlined text-primary text-3xl">auto_stories</span>
+<span class="text-xl font-bold font-serif">OpenNovel</span>
+</div>
+<p class="text-text-muted text-sm leading-relaxed">
+                OpenNovel is a free platform for reading and writing original novels. Join our community to share your imagination.
+            </p>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 font-serif">Discover</h4>
+<ul class="flex flex-col gap-2.5 text-text-muted text-sm">
+<li><a class="hover:text-primary transition-colors" href="index.html">All Genres</a></li>
+<li><a class="hover:text-primary transition-colors" href="index.html">Popular</a></li>
+<li><a class="hover:text-primary transition-colors" href="index.html">New Arrivals</a></li>
+<li><a class="hover:text-primary transition-colors" href="index.html">Editor's Choice</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 font-serif">Resources</h4>
+<ul class="flex flex-col gap-2.5 text-text-muted text-sm">
+<li><a class="hover:text-primary transition-colors" href="forgot.html">Help Center</a></li>
+<li><a class="hover:text-primary transition-colors" href="write.html">Writer's Guide</a></li>
+<li><a class="hover:text-primary transition-colors" href="index.html">Community Guidelines</a></li>
+<li><a class="hover:text-primary transition-colors" href="index.html">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-4 font-serif">Connect</h4>
+<div class="flex gap-4 mb-6">
+<a class="w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-muted hover:text-white hover:bg-primary hover:border-primary transition-all" href="index.html">
+<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+</a>
+<a class="w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-muted hover:text-white hover:bg-primary hover:border-primary transition-all" href="index.html">
+<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+</a>
+<a class="w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center text-muted hover:text-white hover:bg-primary hover:border-primary transition-all" href="index.html">
+<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</a>
+</div>
+<p class="text-stone-600 text-xs">© 2023 OpenNovel. All rights reserved.</p>
+</div>
+</div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. DỮ LIỆU BANNER (Bạn có thể thêm/sửa thoải mái)
+        const slides = [
+            {
+                id: 5,
+                title: "Naruto",
+                author: "Masashi Kishimoto",
+                image: "https://static.gamehub.vn/img/files/2017/05/09/GameHubVN-Tac-gia-vua-Naruto-xac-nhan-mot-nhan-vat-cuc-ky-quan-trong-se-chet-3.jpg",
+                desc: "Hành trình của Naruto - một cậu bé mang trong mình phong ấn Cửu Vĩ, nỗ lực để trở thành Hokage và được mọi người công nhận.",
+                tags: ["Hành Động", "Ninja"]
+            },
+            {
+                id: 1,
+                title: "One Piece",
+                author: "Oda Eiichirō",
+                image: "https://genk.mediacdn.vn/2020/1/30/1-15803727705401451611239.jpg",
+                desc: "Ước mơ tìm thấy kho báu vĩ đại nhất One Piece và trở thành Vua Hải Tặc đời kế tiếp của Monkey D. Luffy.",
+                tags: ["Phiêu Lưu", "Hải Tặc"]
+            },
+            {
+                id: 4,
+                title: "Marrigold",
+                author: "Verbena",
+                image: "https://p.sda1.dev/24/2b1de19925e928591bc978805f83203f/ughlcgsb.png",
+                desc: "Câu chuyện về quý cô sa cơ Marigold và hành trình tìm lại hạnh phúc đích thực của mình.",
+                tags: ["Khoa Huyễn", "Tình Cảm"]
+            }
+        ];
+
+        // 2. KHỞI TẠO BIẾN
+        const track = document.getElementById('slider-track');
+        const dotsContainer = document.getElementById('slider-dots');
+        let currentIndex = 0;
+
+        // 3. VẼ SLIDE (RENDER)
+        slides.forEach((slide, index) => {
+            // Tạo HTML cho từng slide
+            const slideHTML = `
+                <div class="w-full h-full shrink-0 relative">
+                    <img src="${slide.image}" class="w-full h-full object-cover" alt="${slide.title}">
+                    <div class="absolute bottom-0 left-0 w-full p-8 md:p-12 z-20 flex flex-col items-start gap-4">
+                        <span class="px-3 py-1 rounded text-xs font-bold text-white uppercase tracking-wider ${slide.color}">${slide.tag}</span>
+                        <h2 class="text-3xl md:text-5xl font-bold text-white font-serif drop-shadow-lg">${slide.title}</h2>
+                        <p class="text-stone-300 text-sm md:text-base max-w-2xl line-clamp-2 drop-shadow-md">${slide.desc}</p>
+                        <div class="flex gap-4 mt-2">
+                            <a href="detail.html?id=${slide.id}" class="px-6 py-3 bg-primary hover:bg-primary-hover text-white font-bold rounded-lg shadow-lg transition-transform hover:-translate-y-1">Đọc Ngay</a>
+                            <button class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg backdrop-blur-md border border-white/20" data-auth-target="profile.html">Thư Viện</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            track.insertAdjacentHTML('beforeend', slideHTML);
+
+            // Tạo dấu chấm (Dot)
+            const dot = document.createElement('button');
+            dot.className = `w-3 h-3 rounded-full transition-all duration-300 ${index === 0 ? 'bg-primary w-8' : 'bg-white/50 hover:bg-white'}`;
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        // 4. HÀM CHUYỂN SLIDE
+        function updateSlider() {
+            // Dịch chuyển track
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // Cập nhật dấu chấm
+            Array.from(dotsContainer.children).forEach((dot, idx) => {
+                if (idx === currentIndex) {
+                    dot.className = 'w-8 h-3 rounded-full bg-primary transition-all duration-300';
+                } else {
+                    dot.className = 'w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all duration-300';
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length; // Nếu hết thì quay về 0
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length; // Lùi về cuối nếu đang ở 0
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlider();
+        }
+
+        // 5. GẮN SỰ KIỆN NÚT BẤM
+        document.getElementById('next-slide').addEventListener('click', () => {
+            nextSlide();
+            resetAutoPlay(); // Reset bộ đếm tự động khi người dùng bấm
+        });
+
+        document.getElementById('prev-slide').addEventListener('click', () => {
+            prevSlide();
+            resetAutoPlay();
+        });
+
+        // 6. TỰ ĐỘNG CHẠY (AUTO PLAY)
+        let slideInterval = setInterval(nextSlide, 5000); // 5 giây đổi 1 lần
+
+        function resetAutoPlay() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+    });
+
+    // CHỨC NĂNG TÌM KIẾM
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('global-search');
+        const suggestionBox = document.getElementById('search-suggestions');
+        const suggestionList = document.getElementById('suggestion-list');
+        if (!searchInput) return;
+
+        // Xử lý tìm kiếm khi gõ
+        searchInput.addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase().trim();
+            
+            if (keyword === '') {
+                // Nếu ô tìm kiếm trống, ẩn gợi ý và hiển thị tất cả
+                renderNovels(database);
+                if (suggestionBox) suggestionBox.classList.add('hidden');
+                return;
+            }
+
+            // Lọc truyện theo từ khóa (tìm trong title, author, category)
+            const filtered = database.filter(novel => 
+                novel.title.toLowerCase().includes(keyword) || 
+                novel.author.toLowerCase().includes(keyword) ||
+                (novel.category && novel.category.toLowerCase().includes(keyword))
+            );
+            
+            renderNovels(filtered);
+
+            // Hiển thị gợi ý nhanh (tối đa 5)
+            if (suggestionBox && suggestionList) {
+                const topMatches = filtered.slice(0, 5);
+                if (topMatches.length === 0) {
+                    suggestionList.innerHTML = '<div class="p-4 text-sm text-stone-400 text-center">Không tìm thấy truyện phù hợp</div>';
+                } else {
+                    suggestionList.innerHTML = topMatches.map(novel => `
+                        <div data-id="${novel.id}" class="flex items-center gap-3 p-3 hover:bg-stone-50 cursor-pointer border-b border-stone-50 last:border-none transition-colors">
+                            <img src="${novel.cover}" class="w-10 h-14 object-cover rounded shadow-sm" alt="${novel.title}">
+                            <div>
+                                <div class="font-bold text-stone-900 text-sm">${novel.title}</div>
+                                <div class="text-xs text-stone-500">${novel.author}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+                suggestionBox.classList.remove('hidden');
+            }
+        });
+
+        // Ngăn chặn việc redirect khi click vào ô search (xóa sự kiện click cũ)
+        searchInput.removeEventListener('click', searchInput.clickHandler);
+        searchInput.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // Xử lý khi nhấn Enter
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const keyword = searchInput.value.trim();
+                if (keyword) {
+                    window.location.href = `search_result.html?q=${encodeURIComponent(keyword)}`;
+                }
+            }
+        });
+
+        // Ẩn gợi ý khi blur (delay nhẹ để cho phép click)
+        searchInput.addEventListener('blur', () => {
+            if (!suggestionBox) return;
+            setTimeout(() => suggestionBox.classList.add('hidden'), 150);
+        });
+
+        // Hiển thị lại gợi ý khi focus nếu đã có nội dung
+        searchInput.addEventListener('focus', () => {
+            const keyword = searchInput.value.toLowerCase().trim();
+            if (!keyword || !suggestionBox || !suggestionList) return;
+            const filtered = database.filter(novel => 
+                novel.title.toLowerCase().includes(keyword) || 
+                novel.author.toLowerCase().includes(keyword) ||
+                (novel.category && novel.category.toLowerCase().includes(keyword))
+            ).slice(0, 5);
+            if (filtered.length === 0) return;
+            suggestionList.innerHTML = filtered.map(novel => `
+                <div data-id="${novel.id}" class="flex items-center gap-3 p-3 hover:bg-stone-50 cursor-pointer border-b border-stone-50 last:border-none transition-colors">
+                    <img src="${novel.cover}" class="w-10 h-14 object-cover rounded shadow-sm" alt="${novel.title}">
+                    <div>
+                        <div class="font-bold text-stone-900 text-sm">${novel.title}</div>
+                        <div class="text-xs text-stone-500">${novel.author}</div>
+                    </div>
+                </div>
+            `).join('');
+            suggestionBox.classList.remove('hidden');
+        });
+
+        // Điều hướng khi click vào gợi ý
+        if (suggestionList) {
+            suggestionList.addEventListener('click', (e) => {
+                const item = e.target.closest('[data-id]');
+                if (!item) return;
+                const id = item.getAttribute('data-id');
+                if (id) window.location.href = `detail.html?id=${id}`;
+            });
+        }
+    });
+</script>
+
+</body> </html>

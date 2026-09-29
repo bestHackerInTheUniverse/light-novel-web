@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bản thảo của tôi - OpenNovel</title>
+	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+	<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+	<script src="tailwind.config.js"></script>
+	<script src="main.js"></script>
+</head>
+<body class="min-h-screen bg-stone-50 text-stone-900">
+	<header class="sticky top-0 z-10 bg-white border-b border-stone-200 shadow-sm">
+		<div class="max-w-5xl mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
+			<div class="flex items-center gap-3">
+				<a href="index.html" class="h-9 w-9 rounded-lg overflow-hidden bg-stone-100 flex items-center justify-center">
+				<img src="https://phucma.com.vn/wp-content/uploads/2017/11/bishojyo07.gif" alt="Logo" class="h-full w-full object-contain">
+				</a>
+				<div>
+					<p class="text-sm font-semibold">OpenNovel</p>
+					<p class="text-xs text-stone-500">Bản thảo của tôi</p>
+				</div>
+			</div>
+			<a href="profile.html#drafts" class="text-sm font-semibold text-primary hover:underline">Về hồ sơ</a>
+		</div>
+	</header>
+
+	<main class="max-w-5xl mx-auto px-4 md:px-8 py-8">
+		<div class="flex items-center justify-between mb-6">
+			<div>
+				<p class="text-sm uppercase tracking-wide text-stone-500 font-bold">Bản thảo</p>
+				<h1 class="text-2xl md:text-3xl font-bold">Tất cả bản thảo của bạn</h1>
+			</div>
+			<a href="write.html" class="px-4 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary-hover">Tạo truyện mới</a>
+		</div>
+
+		<div id="drafts-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+	</main>
+
+	<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const container = document.getElementById('drafts-container');
+		const drafts = loadDrafts();
+
+		if (drafts.length === 0) {
+			container.innerHTML = `
+				<div class="col-span-full text-center py-12 bg-white border border-dashed border-stone-200 rounded-xl">
+					<p class="text-stone-600 mb-3">Bạn chưa có bản thảo nào.</p>
+					<a href="write.html" class="text-primary font-bold hover:underline">Tạo bản thảo đầu tiên</a>
+				</div>
+			`;
+			return;
+		}
+
+		container.innerHTML = drafts.map(n => `
+			<div class="bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+				<div class="aspect-[3/4] bg-stone-100 overflow-hidden">
+					<img src="${escapeHtml(n.cover || 'https://via.placeholder.com/150')}" class="w-full h-full object-cover" alt="cover">
+				</div>
+				<div class="p-4 flex-1 flex flex-col gap-2">
+					<div class="flex items-center justify-between gap-2">
+						<p class="text-xs font-bold px-2 py-1 rounded-full bg-stone-100 text-stone-600">Nháp</p>
+						<p class="text-[11px] text-stone-500">${escapeHtml(n.date || '')}</p>
+					</div>
+					<h3 class="font-bold text-lg leading-tight line-clamp-2">${escapeHtml(n.title)}</h3>
+					<p class="text-sm text-stone-500 line-clamp-2">${escapeHtml(n.summary || 'Chưa có mô tả')}</p>
+					<div class="mt-auto flex gap-2">
+						<a href="write.html?novelId=${encodeURIComponent(n.id)}" class="flex-1 text-center py-2 rounded-lg border border-primary text-primary font-semibold text-sm hover:bg-primary hover:text-white transition-colors">Tiếp tục viết</a>
+						<button data-id="${encodeURIComponent(n.id)}" class="publish-btn px-3 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary-hover">Đăng</button>
+					</div>
+				</div>
+			</div>
+		`).join('');
+
+		container.querySelectorAll('.publish-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const id = decodeURIComponent(btn.getAttribute('data-id'));
+				const list = getAllNovels();
+				const idx = list.findIndex(x => String(x.id) === String(id));
+				if (idx === -1) return alert('Không tìm thấy bản thảo');
+				list[idx].status = 'published';
+				saveAllNovels(list);
+				alert('Đã đăng truyện thành công');
+				window.location.href = 'Published_Stories.html';
+			});
+		});
+	});
+
+	function getAllNovels(){ try { return JSON.parse(localStorage.getItem('userNovels') || '[]'); } catch(e){ return []; } }
+	function saveAllNovels(list){ localStorage.setItem('userNovels', JSON.stringify(list)); }
+	function loadDrafts(){
+		const all = getAllNovels();
+		return all.filter(n => n && (n.status === 'draft' || n.status === 'Nháp'))
+			.map(n => ({
+				id: n.id,
+				title: n.title,
+				author: n.author,
+				cover: n.cover,
+				summary: n.summary,
+				date: n.date || new Date().toLocaleDateString('vi-VN')
+			}));
+	}
+	function escapeHtml(str){
+		if (!str) return '';
+		const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+		return String(str).replace(/[&<>"']/g, (c) => map[c] || c);
+	}
+	</script>
+</body>
+</html>
+ 

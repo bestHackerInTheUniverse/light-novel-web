@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tác phẩm đã đăng - OpenNovel</title>
+		<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+<body class="bg-stone-50 text-stone-900 min-h-screen">
+<nav class="sticky top-0 z-50 w-full border-b bg-white/95 px-4 py-3">
+	<div class="max-w-[1200px] mx-auto flex items-center gap-4">
+		<a href="index.html" class="brand-logo flex items-center gap-2">
+			<img src="https://phucma.com.vn/wp-content/uploads/2017/11/bishojyo07.gif" 
+			     alt="Logo OpenNovel" 
+			     class="h-9 w-auto object-contain rounded-lg">
+			<span class="text-primary font-bold">OpenNovel</span>
+		</a>
+		<div class="flex-1 ml-4">
+			<input id="global-search" class="w-full h-10 rounded-lg border pl-3" placeholder="Tìm truyện, tác giả..." type="text" />
+		</div>
+		<a href="login.html" id="header-login-btn" class="ml-4 text-sm font-bold text-primary">Login</a>
+	</div>
+</nav>
+<main class="max-w-[1200px] mx-auto p-6">
+	<h1 class="text-2xl font-bold mb-4">Tác phẩm đã đăng</h1>
+	<div id="published-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6"></div>
+	<div id="empty" class="hidden text-center text-stone-500 py-20">Chưa có tác phẩm đã đăng.</div>
+</main>
+
+<script src="data.js"></script>
+<script>
+function isPublished(status){ if(!status) return false; return status === 'published' || status === 'Đang tiến hành' || status === 'Đã hoàn thành'; }
+function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+document.addEventListener('DOMContentLoaded', ()=>{
+	const grid = document.getElementById('published-grid');
+	const empty = document.getElementById('empty');
+	const userNovels = JSON.parse(localStorage.getItem('userNovels')||'[]');
+	const currentUser = localStorage.getItem('currentUser');
+	const dynamicAuthorIds = new Set(['ngay-ay-anh-yeu-em', 'anh-bo-em-roi']);
+	
+	// Lấy truyện published từ database
+	const databasePublished = (typeof database !== 'undefined' ? database : []).filter(n => {
+		const status = n.status;
+		return status === 'Đang tiến hành' || status === 'Đã hoàn thành';
+	}).map(n => {
+		const copy = Object.assign({}, n);
+		if (currentUser && dynamicAuthorIds.has(String(n.id))) {
+			copy.author = currentUser;
+		}
+		return copy;
+	});
+	
+	// Hợp nhất và loại bỏ trùng id
+	const merged = [...userNovels.filter(n=>isPublished(n.status)), ...databasePublished];
+	const seen = new Set();
+	const published = [];
+	merged.forEach(n => {
+		const key = String(n.id);
+		if (seen.has(key)) return;
+		seen.add(key);
+		published.push(n);
+	});
+	if(published.length===0){ grid.innerHTML=''; empty.classList.remove('hidden'); return; }
+	empty.classList.add('hidden');
+	grid.innerHTML = published.map(n=>`
+		<a href="detail.html?id=${encodeURIComponent(n.id)}" class="block p-3 rounded-lg border bg-white hover:shadow-md">
+			<div class="relative aspect-[2/3] overflow-hidden rounded-md mb-2"><img src="${escapeHtml(n.cover||'https://via.placeholder.com/150')}" class="w-full h-full object-cover"/></div>
+			<div class="text-sm font-bold">${escapeHtml(n.title)}</div>
+			<div class="text-xs text-stone-500">${escapeHtml(n.author||'')}</div>
+		</a>
+	`).join('');
+
+	// wire header search to existing global handler in main.js (input id match)
+	const search = document.getElementById('global-search');
+	if(search) search.addEventListener('input', (e)=>{/* noop - main.js may handle Enter/click */});
+});
+</script>
+<script src="main.js"></script>
+</body>
+</html>
+

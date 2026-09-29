@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Đăng ký - OpenNovel</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+<body class="bg-background text-foreground font-display min-h-screen flex flex-col items-center justify-center relative">
+    <a href="index.html" class="absolute top-6 left-6 text-white flex items-center gap-2 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined">arrow_back</span> Trang chủ
+    </a>
+    <div class="w-full max-w-[480px] bg-white border border-gray-200 rounded shadow-sm">
+        <div class="px-4 py-3 border-b bg-gray-100 text-sm font-semibold">Đăng ký</div>
+        <form class="p-6 space-y-4" onsubmit="event.preventDefault(); performRegister();">
+            <div class="grid grid-cols-12 gap-4 items-center">
+                <label class="col-span-4 text-right text-sm text-gray-700">Tên đăng nhập</label>
+                <div class="col-span-8">
+                    <input id="reg-username" class="w-full h-10 rounded border border-gray-300 px-3 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Tên đăng nhập" type="text"/>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-4 items-center">
+                <label class="col-span-4 text-right text-sm text-gray-700">Địa chỉ E-Mail</label>
+                <div class="col-span-8">
+                    <input id="reg-email" class="w-full h-10 rounded border border-gray-300 px-3 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Email" type="email"/>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-4 items-center">
+                <label class="col-span-4 text-right text-sm text-gray-700">Mật khẩu</label>
+                <div class="col-span-8">
+                    <input id="reg-password" class="w-full h-10 rounded border border-gray-300 px-3 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Mật khẩu" type="password"/>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-4 items-center">
+                <label class="col-span-4 text-right text-sm text-gray-700">Xác nhận mật khẩu</label>
+                <div class="col-span-8">
+                    <input id="reg-password2" class="w-full h-10 rounded border border-gray-300 px-3 text-gray-900 placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Xác nhận mật khẩu" type="password"/>
+                </div>
+            </div>
+
+            <div class="pt-2">
+                
+            </div>
+
+            <div class="pt-4">
+                <button type="submit" class="px-6 py-2.5 bg-[#0ea5a4] hover:bg-[#0aa39a] text-white rounded-md font-semibold shadow-lg shadow-[#0ea5a4]/25 transition-transform active:scale-95">Đăng ký</button>
+            </div>
+        </form>
+    </div>
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Quản lý Truyện - OpenNovel</title>
+    
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ea580c", 
+                        "primary-hover": "#c2410c",
+                        "background-dark": "#1c1917",
+                        "surface-dark": "#292524",
+                        "stone-50": "#fafaf9",
+                        "stone-800": "#292524",
+                        "stone-900": "#1c1917",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Merriweather", "serif"],
+                    },
+                },
+            },
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .brand-font { font-family: 'Merriweather', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+
+<body class="bg-white text-stone-900 transition-colors duration-200 font-sans">
+
+    <div class="flex h-screen w-full overflow-hidden">
+        
+        <aside class="w-64 h-full hidden md:flex flex-col border-r border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-stone-900/80 backdrop-blur-md sticky top-0 left-0 z-20">
+            <div class="p-6 flex flex-col gap-1">
+                <a href="index.html" class="brand-logo flex items-center gap-3 hover:opacity-80 transition-opacity" aria-label="OpenNovel homepage">
+                    <img src="https://phucma.com.vn/wp-content/uploads/2017/11/bishojyo07.gif" 
+                         alt="Logo OpenNovel" 
+                         class="h-10 w-auto object-contain rounded-lg">
+                    <span class="text-stone-900 text-2xl font-bold brand-font">OpenNovel</span>
+                </a>
+                <p class="text-stone-500 text-xs font-medium pl-9 font-sans uppercase tracking-wider">Author Studio</p>
+            </div>
+            
+            <nav class="flex-1 px-4 py-2 flex flex-col gap-2 overflow-y-auto no-scrollbar font-sans">
+                <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-white shadow-lg shadow-orange-500/20 transition-all hover:bg-primary-hover" href="dashboard.html">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">library_books</span>
+                    <span class="text-sm font-medium">Tác phẩm của tôi</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/5 dark:hover:text-stone-200 transition-all" href="write.html">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">ink_pen</span>
+                    <span class="text-sm font-medium">Viết mới</span>
+                </a>
+            </nav>
+
+            <div class="p-4 mt-auto border-t border-stone-200 dark:border-stone-800 font-sans bg-stone-50/50 dark:bg-stone-900/50">
+                <div class="flex items-center gap-3 px-4 pt-2">
+                    <div class="h-9 w-9 rounded-full bg-gradient-to-tr from-primary to-amber-300 border-2 border-white dark:border-stone-700 shadow-sm flex items-center justify-center text-white font-bold text-xs">TG</div>
+                    <div class="flex flex-col">
+                        <p class="text-sm font-bold text-stone-800 dark:text-stone-200">Tác Giả A</p>
+                        <p class="text-[10px] text-stone-500 dark:text-stone-500 uppercase font-bold tracking-wide">Pro Member</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 h-full overflow-y-auto overflow-x-hidden relative bg-white dark:bg-background-dark font-sans scroll-smooth">
+            
+            <div class="md:hidden flex items-center justify-between p-4 border-b border-stone-200 sticky top-0 z-10 shadow-sm bg-white">
+                <a href="index.html" class="brand-logo flex items-center gap-2" aria-label="OpenNovel homepage">
+                    <span class="material-symbols-outlined text-teal-600" style="font-size:20px" aria-hidden="true">menu_book</span>
+                    <span class="text-stone-900 text-xl font-bold brand-font">OpenNovel</span>
+                </a>
+                <button class="text-stone-600 p-2"><span class="material-symbols-outlined">menu</span></button>
+            </div>
+
+            <div class="max-w-[1200px] mx-auto p-6 md:p-8 flex flex-col gap-8">
+                
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-stone-900 dark:text-white font-serif tracking-tight">Quản lý Truyện</h2>
+                        <p class="text-stone-500 dark:text-stone-400 mt-1 text-sm">Quản lý, chỉnh sửa và theo dõi các tác phẩm của bạn.</p>
+                    </div>
+                    <a href="write.html" class="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg text-sm font-bold hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors shadow-sm text-stone-700 dark:text-stone-200 group">
+                        <span class="material-symbols-outlined text-[20px] text-stone-400 group-hover:text-primary transition-colors">add_circle</span> 
+                        Thêm Truyện Mới
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-stone-200 dark:border-stone-800 shadow-sm flex flex-col gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="p-2 rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400"><span class="material-symbols-outlined text-[20px]">library_books</span></span>
+                            <span class="text-xs font-bold text-stone-500 uppercase tracking-wider">Tổng số truyện</span>
+                        </div>
+                        <p class="text-3xl font-bold text-stone-900 dark:text-white brand-font" id="total-novels">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-stone-200 dark:border-stone-800 shadow-sm flex flex-col gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="p-2 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"><span class="material-symbols-outlined text-[20px]">visibility</span></span>
+                            <span class="text-xs font-bold text-stone-500 uppercase tracking-wider">Tổng lượt xem</span>
+                        </div>
+                        <p id="total-views" class="text-3xl font-bold text-stone-900 dark:text-white brand-font">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-stone-200 dark:border-stone-800 shadow-sm flex flex-col gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="p-2 rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400"><span class="material-symbols-outlined text-[20px]">group</span></span>
+                            <span class="text-xs font-bold text-stone-500 uppercase tracking-wider">Người theo dõi</span>
+                        </div>
+                        <p id="total-followers" class="text-3xl font-bold text-stone-900 dark:text-white brand-font">1,203</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="relative flex-1">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 material-symbols-outlined">search</span>
+                        <input id="search-input" type="text" placeholder="Tìm kiếm tên truyện..." class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm dark:text-white">
+                    </div>
+                    <select id="status-filter" class="md:w-48 px-4 py-2.5 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-surface-dark focus:ring-2 focus:ring-primary outline-none text-sm cursor-pointer text-stone-600 dark:text-stone-300">
+                        <option value="Tất cả trạng thái">Tất cả trạng thái</option>
+                        <option value="Đang tiến hành">Đang tiến hành</option>
+                        <option value="Đã hoàn thành">Đã hoàn thành</option>
+                        <option value="Tạm ngưng">Tạm ngưng</option>
+                    </select>
+                </div>
+
+                <h2 class="text-xl font-bold mb-4 mt-8">
+                    <a href="Published_Stories.html" class="hover:text-orange-600 transition-colors flex items-center gap-2">
+                        Truyện đã đăng
+                        <span class="text-xs font-normal text-stone-400">(Bấm để xem chi tiết)</span>
+                    </a>
+                </h2>
+                </div>
+
+                <div class="bg-white dark:bg-surface-dark border border-stone-200 dark:border-stone-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-stone-50 dark:bg-stone-900/50 text-stone-500 dark:text-stone-400 border-b border-stone-200 dark:border-stone-800 font-bold uppercase text-[11px] tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4 w-24">Ánh bìa</th>
+                                    <th class="px-6 py-4">Tên truyện</th>
+                                    <th class="px-6 py-4">Trạng thái</th>
+                                    <th class="px-6 py-4">Lần cuối cập nhật</th>
+                                    <th class="px-6 py-4 text-right">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manage-novel-list" class="divide-y divide-stone-100 dark:divide-stone-800">
+                                </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="flex items-center justify-between px-6 py-4 border-t border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900/30">
+                        <span id="pagination-text" class="text-stone-500 text-xs font-medium">Hiển thị 0 truyện</span>
+                        <div class="flex gap-2">
+                            <button id="prev-page" class="px-3 py-1 rounded border border-stone-200 dark:border-stone-700 bg-white dark:bg-surface-dark text-stone-500 text-xs hover:bg-stone-50 hover:text-stone-900 transition-colors disabled:opacity-50">Trước</button>
+                            <button id="next-page" class="px-3 py-1 rounded border border-stone-200 dark:border-stone-700 bg-white dark:bg-surface-dark text-stone-500 text-xs hover:bg-stone-50 hover:text-stone-900 transition-colors disabled:opacity-50">Sau</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="h-10 w-full"></div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Lấy dữ liệu truyện (từ trang Write.html đã lưu)
+            const userNovels = JSON.parse(localStorage.getItem('userNovels') || '[]');
+            const tableBody = document.getElementById('manage-novel-list');
+            const totalText = document.getElementById('total-novels');
+            const pagText = document.getElementById('pagination-text');
+
+            // Cập nhật số lượng
+            totalText.innerText = userNovels.length;
+            pagText.innerText = `Hiển thị 1 đến ${userNovels.length} trong số ${userNovels.length} truyện`;
+
+            // 2. Render bảng
+            if (userNovels.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-6 py-12 text-center text-stone-500 dark:text-stone-400">
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="material-symbols-outlined text-4xl opacity-20">library_books</span>
+                                <p>Bạn chưa có tác phẩm nào.</p>
+                                <a href="write.html" class="text-primary hover:underline text-xs font-bold mt-1">Viết ngay</a>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                tableBody.innerHTML = ''; // Xóa placeholder
+                userNovels.forEach(novel => {
+                    // Xử lý màu sắc trạng thái
+                    let statusClass = 'bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-400';
+                    let icon = 'edit_document';
+                    if (novel.status === 'Đang tiến hành') {
+                        statusClass = 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-500';
+                        icon = 'autorenew';
+                    } else if (novel.status === 'Đã hoàn thành') {
+                        statusClass = 'bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-500';
+                        icon = 'check_circle';
+                    }
+
+                    const row = `
+                        <tr class="hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors group">
+                            <td class="px-6 py-4">
+                                <div class="w-10 h-14 bg-stone-200 dark:bg-stone-700 rounded shadow-sm bg-cover bg-center" style="background-image: url('${novel.cover}');"></div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <p class="text-sm font-bold text-stone-900 dark:text-white brand-font group-hover:text-primary transition-colors cursor-pointer">${novel.title}</p>
+                                <p class="text-xs text-stone-500 mt-0.5">${novel.category.split(',')[0]}</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border border-transparent ${statusClass}">
+                                    <span class="material-symbols-outlined text-[12px]">${icon}</span>
+                                    ${novel.status}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-stone-500 dark:text-stone-400 text-xs">
+                                Vừa xong
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                    <a href="write.html?id=${novel.id}" class="p-2 hover:bg-stone-100 dark:hover:bg-stone-700 rounded text-stone-500 hover:text-primary transition-colors" title="Chỉnh sửa">
+                                        <span class="material-symbols-outlined text-[18px]">edit</span>
+                                    </a>
+                                    <button class="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-stone-500 hover:text-red-500 transition-colors" title="Xóa" onclick="deleteNovel(${novel.id})">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            }
+        });
+
+        // Hàm xóa truyện (Giả lập)
+        function deleteNovel(id) {
+            if(confirm('Bạn có chắc muốn xóa tác phẩm này?')) {
+                let userNovels = JSON.parse(localStorage.getItem('userNovels') || '[]');
+                userNovels = userNovels.filter(n => n.id != id);
+                localStorage.setItem('userNovels', JSON.stringify(userNovels));
+                location.reload(); // Tải lại trang
+            }
+        }
+    </script>
+    <script>
+        (function(){
+            // App state
+            const state = {
+                novels: [],
+                q: '',
+                status: 'Tất cả trạng thái',
+                page: 1,
+                pageSize: 6,
+            };
+
+            // Elements
+            const tableBody = document.getElementById('manage-novel-list');
+            const totalNovelsEl = document.getElementById('total-novels');
+            const totalViewsEl = document.getElementById('total-views');
+            const totalFollowersEl = document.getElementById('total-followers');
+            const pagText = document.getElementById('pagination-text');
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            const searchInput = document.getElementById('search-input');
+            const statusFilter = document.getElementById('status-filter');
+
+            // Utilities
+            function save() { localStorage.setItem('userNovels', JSON.stringify(state.novels)); }
+            function load() { 
+                state.novels = JSON.parse(localStorage.getItem('userNovels') || '[]');
+                // Xóa những truyện cũ không mong muốn
+                const oldTitles = ['Bá Chủ Thiên Hà', 'Kiếm Vô Địch', 'Thiên Long Ký', 'Hào Quang Anh Hùng', 'Mỹ Nam Toàn Chức', 'Thần Y Vô Song', 'Cổ Thần Truyện', 'Sứ Mệnh Ngoài Hành Tinh'];
+                state.novels = state.novels.filter(n => !oldTitles.includes(n.title));
+                save();
+            }
+
+            // Demo seed (only when empty) — helps testing locally
+            function seedDemoData(){
+                if(state.novels.length) return;
+                const demo = [
+                    {id: 'ngay-ay-anh-yeu-em', title: 'Ngày ấy anh yêu em', cover: 'https://anime.atsit.in/l/vi/135844/', category: 'Ngôn Tình', status: 'Đang tiến hành', views: 1200},
+                    {id: 'anh-bo-em-roi', title: 'Anh bỏ em rồi', cover: 'https://blogradio.vn/uploads/cms/source/2021/36/yeuxong_(3).jpg', category: 'Ngôn Tình', status: 'Đã hoàn thành', views: 800}
+                ];
+                state.novels = demo; save();
+            }
+
+            // Filtering / searching
+            function getFiltered(){
+                let list = state.novels.slice();
+                if(state.q) list = list.filter(n => n.title.toLowerCase().includes(state.q.toLowerCase()));
+                if(state.status && state.status !== 'Tất cả trạng thái') list = list.filter(n => n.status === state.status);
+                return list;
+            }
+
+            // Render
+            function renderRow(novel){
+                let statusClass = 'bg-stone-100 text-stone-600 dark:bg-stone-800 dark:text-stone-400';
+                let icon = 'edit_document';
+                if (novel.status === 'Đang tiến hành') { statusClass = 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-500'; icon = 'autorenew'; }
+                else if (novel.status === 'Đã hoàn thành') { statusClass = 'bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-500'; icon = 'check_circle'; }
+
+                return `
+                    <tr class="hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="w-10 h-14 bg-stone-200 dark:bg-stone-700 rounded shadow-sm bg-cover bg-center" style="background-image: url('${novel.cover}');"></div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm font-bold text-stone-900 dark:text-white brand-font group-hover:text-primary transition-colors cursor-pointer">${novel.title}</p>
+                            <p class="text-xs text-stone-500 mt-0.5">${(novel.category||'').split(',')[0]}</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border border-transparent ${statusClass}">
+                                <span class="material-symbols-outlined text-[12px]">${icon}</span>
+                                ${novel.status}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-stone-500 dark:text-stone-400 text-xs">Vừa xong</td>
+                        <td class="px-6 py-4 text-right">
+                        <div class="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <a href="write.html?id=${novel.id}" class="p-2 hover:bg-stone-100 dark:hover:bg-stone-700 rounded text-stone-500 hover:text-primary transition-colors" title="Chỉnh sửa">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span>
+                                </a>
+                                <button onclick="deleteNovel(${novel.id})" class="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-stone-500 hover:text-red-500 transition-colors" title="Xóa">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            function renderTable(){
+                const list = getFiltered();
+                const total = list.length;
+                const totalPages = Math.max(1, Math.ceil(total / state.pageSize));
+                if(state.page > totalPages) state.page = totalPages;
+                const start = (state.page - 1) * state.pageSize;
+                const pageItems = list.slice(start, start + state.pageSize);
+
+                if(pageItems.length === 0){
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center text-stone-500 dark:text-stone-400">
+                                <div class="flex flex-col items-center gap-2">
+                                    <span class="material-symbols-outlined text-4xl opacity-20">library_books</span>
+                                    <p>Bạn chưa có tác phẩm nào.</p>
+                                    <a href="write.html" class="text-primary hover:underline text-xs font-bold mt-1">Viết ngay</a>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    pagText.innerText = `Hiển thị 0 truyện`;
+                    prevBtn.disabled = true; nextBtn.disabled = true;
+                    return;
+                }
+
+                tableBody.innerHTML = pageItems.map(renderRow).join('');
+                pagText.innerText = `Hiển thị ${start + 1} đến ${start + pageItems.length} trong số ${total} truyện`;
+                prevBtn.disabled = (state.page <= 1);
+                nextBtn.disabled = (state.page >= totalPages);
+            }
+
+            function updateMetrics(){
+                totalNovelsEl.innerText = state.novels.length;
+                const totalViews = state.novels.reduce((s, n) => s + (Number(n.views) || 0), 0);
+                totalViewsEl.innerText = totalViews.toLocaleString();
+                const followers = Number(localStorage.getItem('authorFollowers') || totalFollowersEl.innerText.replace(/,/g, '')) || 1203;
+                totalFollowersEl.innerText = followers.toLocaleString();
+            }
+
+            // Debounce helper
+            function debounce(fn, wait = 250){ let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); }; }
+
+            // Bind events
+            function bind(){
+                searchInput.addEventListener('input', debounce((e) => { state.q = e.target.value.trim(); state.page = 1; renderTable(); }, 300));
+                statusFilter.addEventListener('change', (e) => { state.status = e.target.value; state.page = 1; renderTable(); });
+                prevBtn.addEventListener('click', () => { if(state.page > 1) { state.page--; renderTable(); } });
+                nextBtn.addEventListener('click', () => { state.page++; renderTable(); });
+
+                // Expose delete function (overrides older implementation)
+                window.deleteNovel = function(id){
+                    if(!confirm('Bạn có chắc muốn xóa tác phẩm này?')) return;
+                    state.novels = state.novels.filter(n => n.id != id);
+                    save(); updateMetrics(); renderTable();
+                }
+            }
+
+            // Init
+            function init(){
+                load(); seedDemoData();
+                updateMetrics(); bind(); renderTable();
+                // Small responsive tweak: reduce pageSize on small screens
+                function setPageSizeByWidth(){ state.pageSize = window.innerWidth < 640 ? 4 : 6; renderTable(); }
+                window.addEventListener('resize', debounce(setPageSizeByWidth, 200));
+                setPageSizeByWidth();
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>

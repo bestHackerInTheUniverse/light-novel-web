@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OpenNovel</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&amp;family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="tailwind.config.js"></script>
+<script src="data.js"></script>
+</head>
+<body class="bg-background text-foreground font-display min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-border bg-white px-4 lg:px-10 py-3">
+<div class="flex items-center gap-4 lg:gap-8">
+<a class="flex items-center gap-3 text-stone-900 hover:opacity-80 transition-opacity" href="index.html">
+<img src="https://phucma.com.vn/wp-content/uploads/2017/11/bishojyo07.gif" 
+     alt="Logo OpenNovel" 
+     class="h-10 w-auto object-contain rounded-lg">
+<span class="text-xl font-black tracking-tight font-display">OpenNovel</span>
+</a>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full group">
+<div class="text-text-secondary flex border-none bg-surface items-center justify-center pl-4 rounded-l-lg border-r-0 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-muted">search</span>
+</div>
+<input id="global-search" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-foreground focus:outline-0 focus:ring-0 border-none bg-surface focus:border-none h-full placeholder:text-text-secondary px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal transition-colors" placeholder="Tìm kiếm truyện..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden lg:flex items-center gap-9">
+<a class="text-stone-600 text-sm font-medium leading-normal hover:text-stone-900 transition-colors" href="index.html">Trang chủ</a>
+<a class="text-stone-600 text-sm font-medium leading-normal hover:text-stone-900 transition-colors" href="profile.html">Tủ sách</a>
+<a class="text-stone-600 text-sm font-medium leading-normal hover:text-stone-900 transition-colors" href="dashboard.html">Viết truyện</a>
+</nav>
+<div class="flex items-center gap-4">
+<a href="login.html" id="header-login-btn" class="flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-bold text-white hover:bg-primary-hover transition-colors shadow">Đăng nhập</a>
+<div id="header-user-avatar" class="hidden items-center gap-3 text-stone-700">
+    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-transparent hover:ring-primary cursor-pointer transition-all" data-alt="User avatar placeholder showing a generic silhouette" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAPW67UdI0m8NHXI9GHNDm6T9ITvp17ROa1au0ZdXYqjkMp8Odu7AHLhaDSYdszRI4zFsjZodn4dxuV-LCuoD5d9F9EZRhqgvAlFWPSJ490mMblpGgS9SbasE8zSQB-aJ5b2Ki0qZwFc7x8XklWSXw3Kp7V-5-qvZzUJdvJMfv-L9_vXkWVuPDelQ5qLWF5ZKXo2yBu3dKaUgHKyXXj6qoO7FQBQMam2yzFM58vrlR-KLojzURnpbgHZl9ba9yYTaVyx_P22AhtK1g");'></div>
+    <span id="header-username" class="text-sm font-medium"></span>
+</div>
+<button id="mobile-menu-toggle" class="lg:hidden text-stone-700">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center w-full">
+<div class="relative w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center blur-2xl opacity-20 scale-110" data-alt="Abstract space background for blur effect" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBLwvdz9QUcN-rv8pljb_UsdUuMocOLkntn4vlyXlyeqxejylEIXyM-swrSI7VQKDrujgsRJTW6cJF31OgFim0tV5PYBn9Z35s7kuyrN2Sjn6r6z381s8jWAoU9BB6f1nivYBowO6QEpqFJKUDKj4rjoahIWRt5qtJSMJYSsvnNOsB8uHaPfUS3wIYzqMgh7JamVzTuvg1dgc7ZoLTgzaQnPqZh3kFuyxQrNIKwMe5HmrfBI4uoCHzFpnZG7ZjpkjaLKLPNNiEp0Ok");'></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#1c1917]/80 to-[#1c1917]"></div>
+<div class="relative z-10 w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+<div class="flex flex-col md:flex-row gap-8 items-start">
+<div class="shrink-0 mx-auto md:mx-0">
+<div class="w-48 h-72 lg:w-60 lg:h-96 rounded-xl shadow-2xl overflow-hidden ring-1 ring-white/10 relative group">
+<div class="bg-center bg-no-repeat bg-cover w-full h-full transition-transform duration-500 group-hover:scale-105" data-alt="Cover art of the novel The Last Starship showing a spaceship near a dying star" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDDxQj2x17Gak6lDVXbk6IoSG_irNAWNMiSkcbqXS_-hAqsFiklPFhGWrrMn4rif7CEGm3VEgsBuqR-p3k7y7-suFX6Y5W_pwxSJUy1KXE8whaWJ0_Li03KOQrjz_pGM0emQsBbwDAtM7nlCvniPu26ZNvdNkx8YCoAokn5plnVv4fVPMIRqFg0f-_MzjQkdQTMgjUe4yk2rzXPXdSloXI3s498Sta_h-qe9UoLEka5iuLgs5IBxdm1PAKfsZqQVTqUK6CLDUvVlOY");'></div>
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
+</div>
+</div>
+<div class="flex flex-col flex-1 w-full text-center md:text-left">
+<div class="flex flex-wrap gap-2 justify-center md:justify-start mb-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-medium bg-primary/20 text-primary border border-primary/20">
+                                Khoa học viễn tưởng
+                            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                Đang tiến hành
+                            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span> 4.8
+                            </span>
+</div>
+<h1 class="text-3xl lg:text-5xl font-bold text-stone-900 mb-3 tracking-tight font-serif">The Last Starship</h1>
+<p class="text-xl text-text-secondary mb-8 font-medium">by <a class="text-stone-700 hover:text-primary underline decoration-primary/50 hover:decoration-primary transition-colors" href="profile.html">Nguyen Van A</a></p>
+<div class="flex flex-wrap items-center justify-center md:justify-start gap-6 lg:gap-10 mb-8 border-y border-white/10 py-5 w-full md:w-fit">
+<div class="flex flex-col items-center md:items-start">
+<span class="text-foreground font-bold text-lg">1.2M</span>
+<span class="text-xs text-text-secondary uppercase tracking-wider font-semibold">Lượt đọc</span>
+</div>
+<div class="flex flex-col items-center md:items-start">
+<span class="text-foreground font-bold text-lg">45</span>
+<span class="text-xs text-text-secondary uppercase tracking-wider font-semibold">Chương</span>
+</div>
+<div class="flex flex-col items-center md:items-start">
+<span class="text-foreground font-bold text-lg">12K</span>
+<span class="text-xs text-text-secondary uppercase tracking-wider font-semibold">Bình chọn</span>
+</div>
+<div class="flex flex-col items-center md:items-start">
+<span class="text-foreground font-bold text-lg">Rank #4</span>
+<span class="text-xs text-text-secondary uppercase tracking-wider font-semibold">Khoa học viễn tưởng</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-4 justify-center md:justify-start">
+<a href="read.html" class="flex items-center justify-center gap-2 h-12 px-8 bg-primary hover:bg-primary-hover text-white text-base font-bold rounded-lg shadow-[0_0_20px_rgba(217,119,6,0.2)] hover:shadow-[0_0_25px_rgba(217,119,6,0.4)] transition-all transform hover:-translate-y-0.5">
+<span class="material-symbols-outlined">menu_book</span>
+                                Bắt đầu đọc
+                            </a>
+<button id="btn-add-library" class="flex items-center justify-center gap-2 h-12 px-6 bg-input-dark hover:bg-stone-600 text-white text-base font-semibold rounded-lg border border-white/5 transition-colors">
+<span class="material-symbols-outlined">library_add</span>
+                                <span id="btn-lib-text">Thêm vào tủ sách</span>
+                            </button>
+<button class="flex items-center justify-center size-12 bg-surface hover:bg-surface-hover text-foreground rounded-lg border border-border transition-colors" title="Share">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-8 flex-1">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-8">
+<section class="bg-surface rounded-xl p-6 sm:p-8 border border-border">
+<h3 class="text-xl font-bold text-stone-900 mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                            Tóm tắt
+                        </h3>
+<div class="prose max-w-none text-stone-700 leading-relaxed font-serif text-lg">
+<p>In a universe where stars are dying one by one, humanity clings to the fading warmth of the last active sun in the Orion sector. The Galactic Council has forbidden all interstellar travel to conserve energy, grounding the once-great fleets.</p>
+<p class="mt-4">Captain Elara Vance, a disgraced pilot with a ship held together by scrap metal and sheer will, stumbles upon a coordinate encrypted in an old pre-collapse transmission. It points to a location that shouldn't exist: a newborn star.</p>
+<p class="mt-4">Hunted by the Council's Enforcers and racing against the encroaching dark, Elara must assemble a ragtag crew to find the last spark of hope before the lights go out forever.</p>
+</div>
+<div class="mt-8 flex flex-wrap gap-2">
+<div class="px-3 py-1.5 rounded-lg bg-surface text-sm text-muted hover:text-foreground hover:bg-surface-hover cursor-pointer transition-colors border border-border">Space Opera</div>
+<div class="px-3 py-1.5 rounded-lg bg-surface text-sm text-muted hover:text-foreground hover:bg-surface-hover cursor-pointer transition-colors border border-border">Adventure</div>
+<div class="px-3 py-1.5 rounded-lg bg-surface text-sm text-muted hover:text-foreground hover:bg-primary cursor-pointer transition-colors border border-border">Romance Subplot</div>
+<div class="px-3 py-1.5 rounded-lg bg-surface text-sm text-muted hover:text-foreground hover:bg-primary cursor-pointer transition-colors border border-border">Strong Female Lead</div>
+</div>
+</section>
+<section class="bg-surface rounded-xl overflow-hidden border border-border">
+<div class="p-6 border-b border-border flex justify-between items-center bg-surface/95">
+<h3 class="text-xl font-bold text-foreground flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">format_list_numbered</span>
+                                Chương
+                            </h3>
+<button class="text-sm text-primary hover:text-primary-hover font-medium flex items-center gap-1 transition-colors">
+                                Cũ nhất trước <span class="material-symbols-outlined text-[18px]">sort</span>
+</button>
+</div>
+<div class="flex flex-col">
+<a class="group flex items-center justify-between p-4 border-b border-border hover:bg-surface-hover transition-colors" href="read.html?novel_id=1&chapter_id=45">
+<div class="flex items-center gap-4">
+<span class="text-text-secondary font-mono text-sm w-8">045</span>
+<div class="flex flex-col">
+<span class="text-stone-900 font-medium group-hover:text-primary transition-colors font-display">The Final Jump</span>
+<span class="text-xs text-text-secondary md:hidden">2 hours ago</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary text-white ml-2 tracking-wide">NEW</span>
+</div>
+<span class="text-sm text-text-secondary hidden md:block">2 hours ago</span>
+</a>
+<a class="group flex items-center justify-between p-4 border-b border-border hover:bg-surface/95 transition-colors" href="read.html?novel_id=1&chapter_id=44">
+<div class="flex items-center gap-4">
+<span class="text-text-secondary font-mono text-sm w-8">044</span>
+<div class="flex flex-col">
+<span class="text-stone-900 font-medium group-hover:text-primary transition-colors font-display">Betrayal at sector 7</span>
+<span class="text-xs text-text-secondary md:hidden">2 days ago</span>
+</div>
+</div>
+<span class="text-sm text-text-secondary hidden md:block">2 days ago</span>
+</a>
+<a class="group flex items-center justify-between p-4 border-b border-border hover:bg-surface/95 transition-colors" href="read.html?novel_id=1&chapter_id=43">
+<div class="flex items-center gap-4">
+<span class="text-text-secondary font-mono text-sm w-8">043</span>
+<div class="flex flex-col">
+<span class="text-stone-900 font-medium group-hover:text-primary transition-colors font-display">The Engine Room</span>
+<span class="text-xs text-text-secondary md:hidden">5 days ago</span>
+</div>
+</div>
+<span class="text-sm text-text-secondary hidden md:block">5 days ago</span>
+</a>
+<a class="group flex items-center justify-between p-4 border-b border-border hover:bg-surface/95 transition-colors" href="read.html?novel_id=1&chapter_id=42">
+<div class="flex items-center gap-4">
+<span class="text-text-secondary font-mono text-sm w-8">042</span>
+<div class="flex flex-col">
+<span class="text-stone-900 font-medium group-hover:text-primary transition-colors font-display">Echoes of the Past</span>
+<span class="text-xs text-text-secondary md:hidden">1 week ago</span>
+</div>
+</div>
+<span class="text-sm text-text-secondary hidden md:block">1 week ago</span>
+</a>
+<button class="w-full py-4 text-sm text-text-secondary hover:text-stone-900 hover:bg-surface-hover transition-colors font-semibold uppercase tracking-wide">
+                                View all 45 chapters
+                            </button>
+</div>
+</section>
+<section class="bg-surface rounded-xl p-6 sm:p-8 border border-border">
+<h3 class="text-xl font-bold text-stone-900 mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">forum</span>
+                            Đánh giá &amp; Bình luận (128)
+                        </h3>
+<div class="flex gap-4 mb-8">
+<div class="size-10 rounded-full bg-cover bg-center shrink-0 shadow-lg" data-alt="User avatar for comment input" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANr70C-8ZqWP7x9iMxnM9vdD8Y6k4Sol0qqupt8ik--yOLLjJCGO9ZkOcsYLbDFKYwKjwvwOOgKHEifrs9XhGVumJrWxUpZfypMlQ6NagHXgOA3UXwvNce_BcxhlIeUdmRJjDdPhW_craqw3RHjlxTxaF5f7uAp91-F9_ESBN2CbmV6ruDkR7GgyaK-HBSvdQH4MsXn5LTfIup4zF_wouLzUTC31A76fxbY99F64XyXOC2IFlOIAy-FfwIjDUbDNfWo_NqwDI0KpY");'></div>
+<div class="flex-1">
+<textarea id="comment-input" class="w-full bg-surface border border-border rounded-lg p-3 text-foreground placeholder:text-muted focus:ring-1 focus:ring-primary focus:border-primary resize-none h-24 text-sm transition-shadow shadow-inner" placeholder="Để lại đánh giá hoặc bình luận..."></textarea>
+<div class="flex justify-end mt-2">
+<button id="post-review-btn" class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded text-sm font-medium transition-colors shadow-md">Đăng bình luận</button>
+</div>
+</div>
+</div>
+<div id="comments-list" class="space-y-8">
+<div class="comment-group group animate-fade-in-up">
+    <div class="flex gap-4">
+        <div class="size-10 rounded-full bg-cover bg-center shrink-0 shadow-md ring-1 ring-white/10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDFRZbD9UXDcvTaus6MmHVGU-pw_J462H690V0wOmZUTFD0BJGP1VlktQk2J6ooFLLWB2oiLh4chz7f-1bvWezGxE9hzZvpRtSn69UGZ9VgfWdgl6FZADyHWRQbLQrY0UqtOjgBQ1eBnInmqO7ZF0DgJOGaMbMcJoUzFcnOHs1r-mVuIrBPCdBNf6Jr1pn-l_kwQwseVV9bq7F8A9NhU_cLmrkz_H34KRtqxA_PupJl2116QZ8EJPG1WeEmRE5lBL0QRKc7DdSBMpI");'></div>
+        <div class="flex-1">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="text-foreground font-bold text-sm">Sarah Jenkins</span>
+                <span class="text-xs text-text-secondary">• 5 hours ago</span>
+            </div>
+            <p class="text-muted text-sm leading-relaxed">This is getting intense! I honestly didn't expect the twist in Chapter 44. Can't wait for the next update.</p>
+            
+            <div class="flex items-center gap-4 mt-3">
+                <button class="flex items-center gap-1 text-xs text-text-secondary hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">thumb_up</span> 24</button>
+                <button class="btn-reply-trigger flex items-center gap-1 text-xs text-text-secondary hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">reply</span> Trả lời</button>
+            </div>
+
+            <div class="reply-form mt-4 hidden animate-fade-in">
+                <div class="flex gap-3">
+                    <div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold shrink-0">B</div>
+                    <div class="flex-1">
+                        <textarea class="reply-input w-full bg-surface border border-border rounded-lg p-2 text-foreground placeholder:text-muted focus:ring-1 focus:ring-primary focus:border-primary resize-none h-20 text-sm" placeholder="Viết câu trả lời..."></textarea>
+                        <div class="flex justify-end mt-2 gap-2">
+                            <button class="btn-cancel-reply text-xs text-stone-500 hover:text-stone-700 font-medium px-3 py-1.5">Hủy</button>
+                            <button class="btn-submit-reply bg-primary hover:bg-primary-hover text-white px-3 py-1.5 rounded text-xs font-bold transition-colors">Trả lời</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nested-replies mt-4 space-y-4">
+                <div class="flex gap-3">
+                    <div class="size-8 rounded-full bg-cover bg-center shrink-0 opacity-80" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB1d7f3x1YeWVXIkO6AZD1CxxUIrUaKXqAcyR_cNUPKJdNWXTtuj0GC0p5iI0zb5ltqo0QnGebh3HKwfL6yt9mNerHKexuIgvj9chWB42nC8bsonUjd9t4WED5BHQ7Hwv0bUup-lTh_U2jGQtuZQAF1TgxUC9oefgyV4r1Rf2zWBklkpD5ymwpvZpNrcbdV117NMB-EHMfpU1LTGDF4IdRQIvO6LKdsTBBmtOMlbbbjAkhDQVCYWRNXxuaOqYdue2zYzWt1BoJ1GGo");'></div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-foreground font-bold text-xs">Mike Chen</span>
+                            <span class="text-[10px] text-text-secondary">• 2 hours ago</span>
+                        </div>
+                        <p class="text-muted text-sm">Totally agree! The suspense is killing me.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<aside class="flex flex-col gap-8">
+    <section class="bg-card-dark rounded-xl p-6 border border-white/5">
+        <h3 class="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">description</span>
+            Giới thiệu
+        </h3>
+        <div class="text-foreground leading-relaxed font-serif text-sm md:text-base">
+            <p>In a universe where stars are dying one by one, humanity clings to the fading warmth of the last active sun in the Orion sector.</p>
+            <br>
+            <p>Captain Elara Vance, a disgraced pilot with a ship held together by scrap metal and sheer will, stumbles upon a coordinate encrypted in an old pre-collapse transmission.</p>
+        </div>
+    </section>
+
+    <div class="bg-surface rounded-xl p-6 border border-border">
+<div class="flex items-center gap-4 mb-4">
+<div class="size-16 rounded-full bg-cover bg-center border-2 border-primary" data-alt="Author profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDLaFiXQoBiwyhKvjkUwy7V5M1Pj7nNOuMLN_MPWYOJF4onHLAVk8jDkRJXKjwWUXZLco-s2Zy6lfLrCDBslvmJzYpeDKXxUMN6muuH68OJIOLdbg1NEw-2O0TfLKJ0jQB0k3BAInKuOLgWZqTa6mxl_BH1Uj1Klzlh5c5LF1vBbyFrV099_9p7VcAQ6wIPg5aBWqWZQus1PFAZife1kMjUPB1k60M4F_7ZRchS10V7PEBxAZHLwhPn2PL-e53NdtDewa8qtFDiji8");'></div>
+<div>
+<h4 class="text-foreground font-bold text-lg">Nguyen Van A</h4>
+<span class="text-xs text-text-secondary">Tham gia 2021</span>
+</div>
+</div>
+<div class="text-sm text-muted mb-6 leading-relaxed">
+                            Writer of Sci-Fi and Fantasy. I love exploring the unknown through words. Coffee addict.
+                        </div>
+<button id="follow-author-btn" class="w-full flex items-center justify-center gap-2 h-10 bg-white/5 hover:bg-white/10 border border-border text-foreground text-sm font-semibold rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                            Theo dõi tác giả
+                        </button>
+</div>
+<div class="bg-surface rounded-xl p-6 border border-border">
+<h4 class="text-stone-900 font-bold mb-4">Thẻ phổ biến</h4>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs text-muted bg-surface px-2.5 py-1.5 rounded-md hover:bg-primary hover:text-white cursor-pointer transition-colors border border-border">#future</span>
+<span class="text-xs text-muted bg-surface/95 px-2.5 py-1.5 rounded-md hover:bg-primary hover:text-white cursor-pointer transition-colors border border-border">#survival</span>
+<span class="text-xs text-muted bg-surface/95 px-2.5 py-1.5 rounded-md hover:bg-primary hover:text-white cursor-pointer transition-colors border border-border">#romance</span>
+<span class="text-xs text-muted bg-surface/95 px-2.5 py-1.5 rounded-md hover:bg-primary hover:text-white cursor-pointer transition-colors border border-border">#action</span>
+<span class="text-xs text-muted bg-surface/95 px-2.5 py-1.5 rounded-md hover:bg-primary hover:text-white cursor-pointer transition-colors border border-border">#aliens</span>
+</div>
+</div>
+</aside>
+</div>
+
+<section class="mt-12 border-t border-stone-200 pt-10">
+    <h3 class="text-xl font-bold text-stone-900 mb-6 font-display flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">auto_awesome</span>
+        Có thể bạn thích
+    </h3>
+    <div id="random-suggestions" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <!-- Random suggestions will be inserted here -->
+    </div>
+</section>
+
+</div>
+</main>
+<footer class="border-t border-border bg-surface py-8 mt-12">
+<div class="max-w-[1200px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-muted text-sm">© 2023 OpenNovel. Bản quyền được bảo lưu.</p>
+<div class="flex gap-6">
+<a class="text-muted text-sm hover:text-foreground" href="index.html">Chính sách bảo mật</a>
+<a class="text-muted text-sm hover:text-foreground" href="index.html">Điều khoản dịch vụ</a>
+<a class="text-muted text-sm hover:text-foreground" href="index.html">Liên hệ</a>
+</div>
+</div>
+</footer>
+
+<script>
+// --- LOGIC HIỂN THỊ TRUYỆN NGẪU NHIÊN ---
+function renderRandomSuggestions(currentId) {
+    const suggestionContainer = document.getElementById('random-suggestions');
+    if (!suggestionContainer) return;
+
+    // 1. Lọc bỏ truyện hiện tại đang xem (để không gợi ý trùng)
+    const otherNovels = database.filter(n => String(n.id) !== String(currentId));
+
+    // 2. Thuật toán trộn ngẫu nhiên (Shuffle)
+    const shuffled = otherNovels.sort(() => 0.5 - Math.random());
+
+    // 3. Lấy ra 5 truyện đầu tiên sau khi trộn
+    const selectedNovels = shuffled.slice(0, 5);
+
+    // 4. Tạo HTML và hiển thị
+    suggestionContainer.innerHTML = selectedNovels.map(novel => `
+        <a href="detail.html?id=${novel.id}" class="group block">
+            <div class="relative aspect-[2/3] overflow-hidden rounded-xl mb-3 shadow-md bg-stone-200">
+                <img src="${novel.cover}" 
+                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                     alt="${novel.title}">
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+            </div>
+            <h4 class="font-bold text-sm text-stone-900 line-clamp-1 group-hover:text-primary transition-colors">
+                ${novel.title}
+            </h4>
+            <p class="text-xs text-stone-500 mt-1">${novel.author}</p>
+        </a>
+    `).join('');
+}
+
+// --- LOAD NOVEL DATA DYNAMICALLY FROM URL ---
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const novelId = urlParams.get('id');
+    
+    if (typeof database !== 'undefined' && novelId) {
+        const novel = database.find(n => String(n.id) === String(novelId));
+        
+        if (novel) {
+            // Update page title
+            document.title = `${novel.title} - OpenNovel`;
+            
+            // Update cover image and background
+            const coverDiv = document.querySelector('.w-48.h-72.lg\\:w-60.lg\\:h-96 .bg-cover');
+            if (coverDiv) coverDiv.style.backgroundImage = `url('${novel.cover}')`;
+            
+            const bgBlur = document.querySelector('.absolute.inset-0.bg-cover.blur-2xl');
+            if (bgBlur) bgBlur.style.backgroundImage = `url('${novel.cover}')`;
+            
+            // Update title
+            const titleEl = document.querySelector('h1.text-3xl.lg\\:text-5xl');
+            if (titleEl) titleEl.textContent = novel.title;
+            
+            // Update category
+            const categoryEl = document.querySelector('.inline-flex.items-center.px-2\\.5.py-1.rounded.text-xs');
+            if (categoryEl) categoryEl.textContent = novel.category;
+            
+            // Update author (find the <a> tag with author info)
+            const authorEl = document.querySelector('p.text-xl.text-text-secondary a');
+            if (authorEl) {
+                authorEl.textContent = novel.author;
+                authorEl.href = 'profile.html';
+            }
+            
+            // Update chapters count
+            if (novel.chapters) {
+                const chaptersEl = document.querySelectorAll('.flex.flex-col.items-center')[1];
+                if (chaptersEl) {
+                    const numberEl = chaptersEl.querySelector('span.text-foreground');
+                    if (numberEl) numberEl.textContent = novel.chapters;
+                }
+            }
+            
+            // Update summary in main section
+            if (novel.summary) {
+                const summarySection = document.querySelector('.prose.max-w-none');
+                if (summarySection) {
+                    summarySection.innerHTML = `<p>${novel.summary}</p>`;
+                }
+                
+                // Update summary in sidebar (Giới thiệu section)
+                const sidebarSummary = document.querySelector('section.bg-card-dark .text-foreground.leading-relaxed');
+                if (sidebarSummary) {
+                    sidebarSummary.innerHTML = `<p>${novel.summary}</p>`;
+                }
+            }
+            
+            // Update comments - Split by comma and create comment elements
+            if (novel.comments) {
+                const commentsList = document.getElementById('comments-list');
+                if (commentsList) {
+                    const commentsArray = novel.comments.split(',').map(c => c.trim()).filter(c => c);
+                    const existingComment = commentsList.querySelector('.comment-group');
+                    
+                    commentsArray.forEach((comment, index) => {
+                        const commentHTML = `
+                        <div class="comment-group group animate-fade-in-up">
+                            <div class="flex gap-4">
+                                <div class="size-10 rounded-full bg-cover bg-center shrink-0 shadow-md ring-1 ring-white/10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDFRZbD9UXDcvTaus6MmHVGU-pw_J462H690V0wOmZUTFD0BJGP1VlktQk2J6ooFLLWB2oiLh4chz7f-1bvWezGxE9hzZvpRtSn69UGZ9VgfWdgl6FZADyHWRQbLQrY0UqtOjgBQ1eBnInmqO7ZF0DgJOGaMbMcJoUzFcnOHs1r-mVuIrBPCdBNf6Jr1pn-l_kwQwseVV9bq7F8A9NhU_cLmrkz_H34KRtqxA_PupJl2116QZ8EJPG1WeEmRE5lBL0QRKc7DdSBMpI");'></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="text-foreground font-bold text-sm">Độc giả ${index + 1}</span>
+                                        <span class="text-xs text-text-secondary">• ${Math.floor(Math.random() * 24) + 1} giờ trước</span>
+                                    </div>
+                                    <p class="text-muted text-sm leading-relaxed">${comment}</p>
+                                    <div class="flex items-center gap-4 mt-3">
+                                        <button class="flex items-center gap-1 text-xs text-text-secondary hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">thumb_up</span> ${Math.floor(Math.random() * 50) + 1}</button>
+                                        <button class="btn-reply-trigger flex items-center gap-1 text-xs text-text-secondary hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">reply</span> Trả lời</button>
+                                    </div>
+                                    <div class="reply-form mt-4 hidden animate-fade-in">
+                                        <div class="flex gap-3">
+                                            <div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold shrink-0">B</div>
+                                            <div class="flex-1">
+                                                <textarea class="reply-input w-full bg-surface border border-border rounded-lg p-2 text-foreground placeholder:text-muted focus:ring-1 focus:ring-primary focus:border-primary resize-none h-20 text-sm" placeholder="Viết câu trả lời..."></textarea>
+                                                <div class="flex justify-end mt-2 gap-2">
+                                                    <button class="btn-cancel-reply text-xs text-stone-500 hover:text-stone-700 font-medium px-3 py-1.5">Hủy</button>
+                                                    <button class="btn-submit-reply bg-primary hover:bg-primary-hover text-white px-3 py-1.5 rounded text-xs font-bold transition-colors">Trả lời</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="nested-replies mt-4 space-y-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                        
+                        if (index === 0 && existingComment) {
+                            existingComment.outerHTML = commentHTML;
+                        } else {
+                            commentsList.insertAdjacentHTML('beforeend', commentHTML);
+                        }
+                    });
+                }
+            }
+            
+            // Render random suggestions
+            renderRandomSuggestions(novelId);
+        } else {
+            alert("Không tìm thấy tác phẩm!");
+            window.location.href = 'index.html';
+        }
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('comment-input');
+    const btn = document.getElementById('post-review-btn');
+    const list = document.getElementById('comments-list');
+    const esc = window.escapeHtml || function (t) { if (!t) return ''; return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;'); };
+
+    if (!input || !btn || !list) return;
+
+    function createCommentElement(content) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'comment-group group animate-fade-in-up';
+        wrapper.innerHTML = `
+            <div class="flex gap-4">
+                <div class="size-10 rounded-full bg-cover bg-center shrink-0 shadow-md ring-1 ring-white/10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANr70C-8ZqWP7x9iMxnM9vdD8Y6k4Sol0qqupt8ik--yOLLjJCGO9ZkOcsYLbDFKYwKjwvwOOgKHEifrs9XhGVumJrWxUpZfypMlQ6NagHXgOA3UXwvNce_BcxhlIeUdmRJjDdPhW_craqw3RHjlxTxaF5f7uAp91-F9_ESBN2CbmV6ruDkR7GgyaK-HBSvdQH4MsXn5LTfIup4zF_wouLzUTC31A76fxbY99F64XyXOC2IFlOIAy-FfwIjDUbDNfWo_NqwDI0KpY");'></div>
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-stone-900 font-bold text-sm">Bạn (Vừa xong)</span>
+                        <span class="text-xs text-text-secondary">• Mới nhất</span>
+                    </div>
+                    <p class="text-stone-700 text-sm leading-relaxed">${esc(content)}</p>
+
+                    <div class="flex items-center gap-4 mt-3">
+                        <button class="flex items-center gap-1 text-xs text-text-secondary hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">thumb_up</span> 0</button>
+                        <button class="btn-reply-trigger flex items-center gap-1 text-xs text-text-secondary hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">reply</span> Trả lời</button>
+                        <button data-action="delete" class="flex items-center gap-1 text-xs text-text-secondary hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">delete</span> Xóa</button>
+                    </div>
+
+                    <div class="reply-form mt-4 hidden animate-fade-in">
+                        <div class="flex gap-3">
+                            <div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold shrink-0">B</div>
+                            <div class="flex-1">
+                                <textarea class="reply-input w-full bg-surface border border-border rounded-lg p-2 text-foreground placeholder:text-stone-500 focus:ring-1 focus:ring-primary focus:border-primary resize-none h-20 text-sm" placeholder="Viết câu trả lời..."></textarea>
+                                <div class="flex justify-end mt-2 gap-2">
+                                    <button class="btn-cancel-reply text-xs text-stone-500 hover:text-stone-700 font-medium px-3 py-1.5">Hủy</button>
+                                    <button class="btn-submit-reply bg-primary hover:bg-primary-hover text-white px-3 py-1.5 rounded text-xs font-bold transition-colors">Trả lời</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nested-replies mt-4 space-y-4"></div>
+                </div>
+            </div>
+        `;
+        return wrapper;
+    }
+
+    function createReplyElement(content) {
+        const wrap = document.createElement('div');
+        wrap.className = 'flex gap-3';
+        wrap.innerHTML = `
+            <div class="size-8 rounded-full bg-cover bg-center shrink-0 opacity-80" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB1d7f3x1YeWVXIkO6AZD1CxxUIrUaKXqAcyR_cNUPKJdNWXTtuj0GC0p5iI0zb5ltqo0QnGebh3HKwfL6yt9mNerHKexuIgvj9chWB42nC8bsonUjd9t4WED5BHQ7Hwv0bUup-lTh_U2jGQtuZQAF1TgxUC9oefgyV4r1Rf2zWBklkpD5ymwpvZpNrcbdV117NMB-EHMfpU1LTGDF4IdRQIvO6LKdsTBBmtOMlbbbjAkhDQVCYWRNXxuaOqYdue2zYzWt1BoJ1GGo");'></div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-stone-900 font-bold text-xs">Bạn</span>
+                    <span class="text-[10px] text-text-secondary">• Vừa xong</span>
+                </div>
+                <p class="text-stone-700 text-sm">${esc(content)}</p>
+            </div>
+        `;
+        return wrap;
+    }
+
+    // Post new comment
+    btn.addEventListener('click', () => {
+        const content = input.value.trim();
+        if (!content) { alert('Vui lòng nhập nội dung bình luận!'); return; }
+        const el = createCommentElement(content);
+        list.prepend(el);
+        input.value = '';
+        input.focus();
+    });
+
+    // Delegated handlers for reply/show/hide/submit/delete
+    list.addEventListener('click', (e) => {
+        const replyTrigger = e.target.closest('.btn-reply-trigger');
+        if (replyTrigger) {
+            const group = replyTrigger.closest('.comment-group');
+            const form = group.querySelector('.reply-form');
+            form.classList.toggle('hidden');
+            const textarea = form.querySelector('.reply-input');
+            if (!form.classList.contains('hidden')) textarea.focus();
+            return;
+        }
+
+        const cancel = e.target.closest('.btn-cancel-reply');
+        if (cancel) {
+            const form = cancel.closest('.reply-form');
+            form.classList.add('hidden');
+            return;
+        }
+
+        const submit = e.target.closest('.btn-submit-reply');
+        if (submit) {
+            const form = submit.closest('.reply-form');
+            const textarea = form.querySelector('.reply-input');
+            const content = textarea.value.trim();
+            if (!content) { alert('Vui lòng nhập nội dung trả lời!'); return; }
+            const group = submit.closest('.comment-group');
+            const nested = group.querySelector('.nested-replies');
+            nested.appendChild(createReplyElement(content));
+            textarea.value = '';
+            form.classList.add('hidden');
+            return;
+        }
+
+        const del = e.target.closest('[data-action="delete"]');
+        if (del) {
+            const item = del.closest('.comment-group');
+            if (item) item.remove();
+            return;
+        }
+    });
+});
+</script>
+
+<script>
+// --- LIBRARY: Add to Library button behavior ---
+document.addEventListener('DOMContentLoaded', () => {
+    const btnAddLib = document.getElementById('btn-add-library');
+    const btnLibText = document.getElementById('btn-lib-text');
+    const params = new URLSearchParams(window.location.search);
+    const novelId = params.get('id') || params.get('novel_id');
+    if (!btnAddLib || !btnLibText) return;
+
+    function checkLibraryStatus() {
+        const currentUser = localStorage.getItem('currentUser');
+        if (!currentUser) return;
+        const libraryKey = `library_${currentUser}`;
+        const library = JSON.parse(localStorage.getItem(libraryKey) || '[]');
+        if (library.includes(String(novelId))) {
+            btnAddLib.classList.remove('bg-input-dark');
+            btnAddLib.classList.add('bg-green-600', 'hover:bg-green-700');
+            btnLibText.textContent = 'Đã lưu';
+        }
+    }
+
+    checkLibraryStatus();
+
+    btnAddLib.addEventListener('click', function () {
+        const currentUser = localStorage.getItem('currentUser');
+        if (!currentUser) {
+            alert('Bạn cần đăng nhập để sử dụng tính năng này!');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const libraryKey = `library_${currentUser}`;
+        let library = JSON.parse(localStorage.getItem(libraryKey) || '[]');
+
+        if (library.includes(String(novelId))) {
+            // Remove
+            library = library.filter(id => String(id) !== String(novelId));
+            alert('Đã xóa khỏi thư viện!');
+            btnAddLib.classList.add('bg-input-dark');
+            btnAddLib.classList.remove('bg-green-600', 'hover:bg-green-700');
+            btnLibText.textContent = 'Add to Library';
+        } else {
+            // Add
+            library.push(String(novelId));
+            alert('Đã thêm vào thư viện thành công!');
+            btnAddLib.classList.remove('bg-input-dark');
+            btnAddLib.classList.add('bg-green-600', 'hover:bg-green-700');
+            btnLibText.textContent = 'Đã lưu';
+        }
+
+        localStorage.setItem(libraryKey, JSON.stringify(library));
+    });
+});
+</script>
+
+</body></html>

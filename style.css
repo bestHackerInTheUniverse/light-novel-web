@@ -1,0 +1,81 @@
+/* Ẩn thanh cuộn nhưng vẫn cuộn được */
+.hide-scrollbar::-webkit-scrollbar, .no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar, .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Custom Scrollbar cho các trang cần hiện */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #57534e;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ea580c;
+}
+
+/* Animation chung */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+/* style.css */
+
+/* Chế độ Sáng (Mặc định) */
+body.light-mode {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+/* Chế độ Tối */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+body.dark-mode .modal-content {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Chế độ Vàng nhạt (Bảo vệ mắt) */
+body.sepia-mode {
+    background-color: #f4e4bc;
+    color: #433422;
+}
+
+/* Khung nội dung truyện */
+#chapter-content {
+    font-size: 18px; /* Cỡ chữ mặc định dễ đọc */
+    line-height: 1.8; /* Giãn dòng thoáng */
+    text-align: justify; /* Căn đều 2 bên */
+    max-width: 800px;
+    margin: 0 auto; /* Căn giữa màn hình */
+    padding-bottom: 80px; /* Tránh bị Footer che mất chữ cuối */
+}
+
+/* Nút Cài đặt nổi */
+.floating-settings-btn {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}

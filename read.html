@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Giao diện Đọc truyện - OpenNovel</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Roboto+Mono:wght@400;500&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="tailwind.config.js"></script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #44403c; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #57534e; }
+        
+        /* Sidebar styles */
+        #reader-sidebar { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 60; }
+        #reader-sidebar .sidebar-panel { display:flex; flex-direction:column; gap:8px; padding:6px; border-radius:10px; background: rgba(255,255,255,0.9); border:1px solid rgba(0,0,0,0.1); box-shadow:0 6px 24px rgba(0,0,0,0.08); backdrop-filter: blur(8px); }
+        .dark #reader-sidebar .sidebar-panel { background: rgba(28, 25, 23, 0.9); border-color: rgba(255,255,255,0.1); }
+        
+        #reader-sidebar .sb-btn { width:44px; height:44px; display:flex; align-items:center; justify-content:center; border-radius:8px; background:transparent; color:#57534e; border:none; transition: all 0.2s; }
+        .dark #reader-sidebar .sb-btn { color: #a8a29e; }
+        #reader-sidebar .sb-btn:hover { background: rgba(234, 88, 12, 0.1); color: #ea580c; transform: translateX(-2px); }
+        
+        .theme-dot { width:36px; height:24px; border-radius:6px; border:1px solid rgba(0,0,0,0.1); }
+        .modal-backdrop { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.6); z-index:70; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+        .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+        .settings-card { box-shadow: 0 20px 60px -10px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.2s; }
+        .modal-backdrop.open .settings-card { transform: scale(1); }
+        
+        @media (max-width:640px){ #reader-sidebar { right:8px; } }
+    </style>
+</head>
+<body class="bg-background text-foreground font-display transition-colors duration-300 min-h-screen flex flex-col relative">
+
+    <main class="flex-grow flex justify-center pb-24 transition-colors duration-300 pt-10">
+        <div class="w-full max-w-[900px] flex flex-col">
+            
+            <nav class="px-6 mb-4 text-sm text-gray-500 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-primary">Trang chủ</a>
+                <span>/</span>
+                <span id="breadcrumb-novel">Đang tải...</span>
+            </nav>
+
+            <article id="reader-article" class="mx-auto w-full max-w-[800px] px-6 py-10 font-serif leading-relaxed text-gray-800 transition-all duration-300">
+                <header class="mb-10 text-center border-b border-gray-200 dark:border-surface-highlight pb-8">
+                    <div class="text-sm font-bold text-primary uppercase tracking-wider mb-2">Tập 01</div>
+                    <h1 id="chapter-title" class="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                        Đang tải dữ liệu...
+                    </h1>
+                    <div id="chapter-meta" class="flex justify-center gap-4 text-sm text-gray-500 font-medium">
+                        <span>Lão Trang</span> • <span>2305 chữ</span> • <span>12/05/2023</span>
+                    </div>
+                </header>
+                
+                <div id="chapter-content" class="prose prose-lg dark:prose-invert max-w-none text-justify space-y-6">
+                    </div>
+
+                <div class="mt-16 flex justify-center gap-4 border-t border-gray-200 dark:border-surface-highlight pt-8">
+                    <button class="flex items-center gap-2 px-6 py-2.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <span class="material-symbols-outlined text-primary">thumb_up</span> Yêu thích
+                    </button>
+                    <button class="flex items-center gap-2 px-6 py-2.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <span class="material-symbols-outlined text-red-500">flag</span> Báo lỗi
+                    </button>
+                </div>
+            </article>
+
+            <section class="max-w-[800px] mx-auto w-full px-6 mb-20 mt-8 border-t border-dashed border-gray-300 dark:border-gray-700 pt-10">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-gray-900 dark:text-white">
+                    <span class="material-symbols-outlined text-primary">forum</span> Bình luận
+                </h3>
+                
+                <div class="flex gap-4 mb-8">
+                    <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">U</div>
+                    <div class="flex-grow">
+                        <textarea id="comment-input" class="w-full bg-gray-50 dark:bg-surface-dark border border-gray-200 dark:border-surface-highlight rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none h-24 dark:text-white" placeholder="Viết bình luận của bạn..."></textarea>
+                        <div class="flex justify-end mt-2">
+                            <button id="send-comment" class="bg-primary hover:bg-primary-hover text-white px-5 py-2 rounded-lg text-sm font-bold shadow-lg shadow-primary/20 transition-all">Gửi bình luận</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="comments-list" class="space-y-6">
+                    </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="reader-sidebar">
+        <div class="sidebar-panel">
+            <button id="reader-back" class="sb-btn" title="Quay lại"><span class="material-symbols-outlined">arrow_back</span></button>
+            <button id="reader-home" class="sb-btn" title="Trang chủ"><span class="material-symbols-outlined">home</span></button>
+            <button id="reader-settings-open" class="sb-btn" title="Cài đặt"><span class="material-symbols-outlined">text_fields</span></button>
+            <button id="reader-toc" class="sb-btn" title="Mục lục"><span class="material-symbols-outlined">list</span></button>
+            <button id="reader-bookmark" class="sb-btn" title="Đánh dấu"><span class="material-symbols-outlined">bookmark_border</span></button>
+            <button id="reader-next" class="sb-btn" title="Chương sau"><span class="material-symbols-outlined">arrow_forward</span></button>
+        </div>
+    </div>
+
+    <div id="reader-settings-modal" class="modal-backdrop">
+        <div class="bg-white dark:bg-surface-dark rounded-xl w-[600px] max-w-[90%] p-6 settings-card border border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">tune</span> Cài đặt hiển thị
+                </h3>
+                <button id="close-settings" class="text-gray-500 hover:text-gray-900 dark:hover:text-white"><span class="material-symbols-outlined">close</span></button>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Màu nền</label>
+                    <div class="grid grid-cols-4 gap-3">
+                        <button data-theme="light" class="theme-choice flex flex-col items-center gap-2 p-2 rounded-lg border hover:border-primary transition-all bg-white text-gray-900">
+                            <span class="theme-dot bg-white border"></span> <span class="text-xs">Sáng</span>
+                        </button>
+                        <button data-theme="sepia" class="theme-choice flex flex-col items-center gap-2 p-2 rounded-lg border hover:border-primary transition-all bg-[#f4ecd8] text-[#5b4636]">
+                            <span class="theme-dot bg-[#f4ecd8] border-orange-200"></span> <span class="text-xs">Sepia</span>
+                        </button>
+                        <button data-theme="dark" class="theme-choice flex flex-col items-center gap-2 p-2 rounded-lg border hover:border-primary transition-all bg-[#1c1917] text-gray-200">
+                            <span class="theme-dot bg-[#1c1917] border-gray-700"></span> <span class="text-xs">Tối</span>
+                        </button>
+                        <button data-theme="gray" class="theme-choice flex flex-col items-center gap-2 p-2 rounded-lg border hover:border-primary transition-all bg-[#374151] text-gray-100">
+                            <span class="theme-dot bg-[#374151] border-gray-600"></span> <span class="text-xs">Xám</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Font chữ</label>
+                        <select id="reader-font" class="w-full rounded-lg border-gray-300 bg-white py-2 text-sm">
+                            <option value="Merriweather">Merriweather (Serif)</option>
+                            <option value="Inter">Inter (Sans)</option>
+                            <option value="Roboto Mono">Roboto Mono</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Cỡ chữ: <span id="font-size-val">20px</span></label>
+                        <input id="reader-font-size" type="range" min="14" max="30" value="20" class="w-full accent-primary">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Chiều rộng</label>
+                        <input id="reader-width" type="range" min="500" max="1000" value="800" class="w-full accent-primary">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Căn lề</label>
+                        <div class="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+                            <button data-align="left" class="align-btn flex-1 py-1 rounded hover:bg-white dark:hover:bg-gray-700 shadow-sm transition-all"><span class="material-symbols-outlined text-sm">format_align_left</span></button>
+                            <button data-align="justify" class="align-btn flex-1 py-1 rounded hover:bg-white dark:hover:bg-gray-700 shadow-sm transition-all"><span class="material-symbols-outlined text-sm">format_align_justify</span></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-right pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <button id="reset-settings" class="text-xs text-red-500 hover:underline font-medium">Đặt lại mặc định</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="fixed top-6 right-6 z-[100] flex flex-col gap-2"></div>
+
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Hàm Utility thiếu trong code cũ
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        (function() {
+            // 1. Khởi tạo & Lấy dữ liệu
+            const params = new URLSearchParams(window.location.search);
+            const novelId = params.get('novel_id') || params.get('id') || '1';
+            const chapterId = parseInt(params.get('chapter_id')) || 1;
+
+            // Lấy từ data.js
+            let novel = typeof getNovelById === 'function' ? getNovelById(novelId) : { title: "Truyện Demo", author: "Admin", chapters: [] };
+            
+            // Tìm chương hiện tại
+            let chapter = null;
+            if(novel && novel.chapters) {
+                chapter = novel.chapters.find(c => c.id == chapterId);
+            }
+
+            // 2. Render Nội dung
+            const titleEl = document.getElementById('chapter-title');
+            const contentEl = document.getElementById('chapter-content');
+            const metaEl = document.getElementById('chapter-meta');
+            const breadcrumb = document.getElementById('breadcrumb-novel');
+
+            if (novel) breadcrumb.textContent = novel.title;
+
+            if (chapter) {
+                titleEl.textContent = chapter.title;
+                contentEl.innerHTML = chapter.content; // Nội dung HTML từ data
+                metaEl.innerHTML = `<span>${novel.author || 'Tác giả'}</span> • <span>${chapter.id}</span>`;
+                document.title = `${chapter.title} - ${novel.title}`;
+            } else {
+                contentEl.innerHTML = `<div class="text-center py-10 text-gray-500">Không tìm thấy nội dung chương ${chapterId}.</div>`;
+            }
+
+            // 3. Xử lý Cài đặt (Settings)
+            const settingsModal = document.getElementById('reader-settings-modal');
+            const article = document.getElementById('reader-article');
+            
+            // Load settings từ LocalStorage
+            let settings = JSON.parse(localStorage.getItem('readerSettings')) || {
+                theme: 'sepia',
+                font: 'Merriweather',
+                size: 20,
+                width: 800,
+                align: 'justify'
+            };
+
+            function applySettings() {
+                // Theme
+                document.body.className = `min-h-screen flex flex-col relative transition-colors duration-300`; // Reset base
+                const contentText = document.getElementById('chapter-content');
+                const chapterTitle = document.getElementById('chapter-title'); // Lấy element tiêu đề
+                
+                let textColor = ''; // Biến lưu màu chữ
+
+                if(settings.theme === 'light') {
+                    document.body.style.backgroundColor = '#ffffff';
+                    textColor = '#1f2937';
+                } else if(settings.theme === 'sepia') {
+                    document.body.style.backgroundColor = '#f4ecd8';
+                    textColor = '#5b4636'; // Màu nâu đậm của Sepia
+                } else if(settings.theme === 'dark') {
+                    document.body.classList.add('dark');
+                    document.body.style.backgroundColor = '#1c1917';
+                    textColor = '#d6d3d1';
+                } else if(settings.theme === 'gray') {
+                    document.body.style.backgroundColor = '#374151';
+                    textColor = '#e5e7eb';
+                }
+
+                // Áp dụng màu chữ cho cả Body, Nội dung truyện VÀ Tiêu đề chương
+                document.body.style.color = textColor;
+                if(contentText) contentText.style.color = textColor;
+                if(chapterTitle) chapterTitle.style.color = textColor; // ĐỒNG BỘ MÀU Ở ĐÂY
+
+                // Font & Size
+                article.style.fontFamily = settings.font === 'Inter' ? 'Inter, sans-serif' : (settings.font === 'Roboto Mono' ? 'Roboto Mono, monospace' : 'Merriweather, serif');
+                article.style.fontSize = settings.size + 'px';
+                article.style.maxWidth = settings.width + 'px';
+                article.style.textAlign = settings.align;
+
+                // Update UI controls values
+                document.getElementById('font-size-val').textContent = settings.size + 'px';
+                document.getElementById('reader-font-size').value = settings.size;
+                document.getElementById('reader-width').value = settings.width;
+                document.getElementById('reader-font').value = settings.font;
+            }
+
+            function saveSettings() {
+                localStorage.setItem('readerSettings', JSON.stringify(settings));
+                applySettings();
+            }
+
+            // Event Listeners cho Settings
+            document.getElementById('reader-settings-open').onclick = () => settingsModal.classList.add('open');
+            document.getElementById('close-settings').onclick = () => settingsModal.classList.remove('open');
+            
+            document.querySelectorAll('.theme-choice').forEach(btn => {
+                btn.onclick = () => { settings.theme = btn.dataset.theme; saveSettings(); }
+            });
+            document.getElementById('reader-font-size').oninput = (e) => { settings.size = e.target.value; saveSettings(); };
+            document.getElementById('reader-width').oninput = (e) => { settings.width = e.target.value; saveSettings(); };
+            document.getElementById('reader-font').onchange = (e) => { settings.font = e.target.value; saveSettings(); };
+            document.querySelectorAll('.align-btn').forEach(btn => {
+                btn.onclick = () => { settings.align = btn.dataset.align; saveSettings(); };
+            });
+            document.getElementById('reset-settings').onclick = () => {
+                settings = { theme: 'sepia', font: 'Merriweather', size: 20, width: 800, align: 'justify' };
+                saveSettings();
+            };
+
+            // 4. Xử lý Sidebar Nav
+            document.getElementById('reader-home').onclick = () => window.location.href = 'index.html';
+            document.getElementById('reader-back').onclick = () => window.history.back();
+            document.getElementById('reader-next').onclick = () => {
+                // Logic next chapter giả lập
+                const nextId = chapterId + 1;
+                window.location.href = `read.html?novel_id=${novelId}&chapter_id=${nextId}`;
+            };
+
+            // 5. Xử lý Comment
+            const commentInput = document.getElementById('comment-input');
+            const commentList = document.getElementById('comments-list');
+            const sendBtn = document.getElementById('send-comment');
+
+            // Load comment giả lập
+            function loadComments() {
+                const comments = JSON.parse(localStorage.getItem(`comments_${novelId}_${chapterId}`)) || [
+                    { user: "Độc giả A", text: "Truyện hay quá!", time: "2 phút trước", avatar: "A" },
+                    { user: "Minh B", text: "Hóng chương sau.", time: "1 giờ trước", avatar: "M" }
+                ];
+                
+                commentList.innerHTML = comments.map(c => `
+                    <div class="flex gap-4 animate-fade-in">
+                        <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">${c.avatar}</div>
+                        <div class="flex-grow">
+                            <div class="flex items-baseline gap-2 mb-1">
+                                <span class="font-bold text-gray-900 dark:text-white text-sm" style="color: inherit">${escapeHtml(c.user)}</span>
+                                <span class="text-xs opacity-70">${c.time}</span>
+                            </div>
+                            <p class="text-sm opacity-90">${escapeHtml(c.text)}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            sendBtn.onclick = () => {
+                const text = commentInput.value.trim();
+                if(!text) return;
+                
+                const newComment = { user: "Bạn", text: text, time: "Vừa xong", avatar: "Y" };
+                let comments = JSON.parse(localStorage.getItem(`comments_${novelId}_${chapterId}`)) || [];
+                comments.unshift(newComment);
+                localStorage.setItem(`comments_${novelId}_${chapterId}`, JSON.stringify(comments));
+                
+                commentInput.value = '';
+                loadComments();
+            };
+
+            // Init
+            applySettings();
+            loadComments();
+
+        })();
+    </script>
+</body>
+</html>
